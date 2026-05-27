@@ -1,127 +1,108 @@
 # Geek CLAUDE - UGC
 
-> **Clone qualquer ad UGC vencedor em 15 minutos. Sem editar vídeo. Sem aparecer. Custo perto de zero.**
+> **Clone qualquer ad UGC vencedor em 15 minutos. Sem editar vídeo. Sem aparecer.**
 
-Você acha um ad bombando no TikTok / Instagram / Facebook Ads Library. Joga aqui dentro. O agente (Claude, Codex ou Gemini) lê o ad, **escreve o roteiro**, te dá **o briefing pra colar no HeyGen + SuperGrok**, transcreve voiceover com Whisper local, monta tudo no **ffmpeg**, e te entrega o MP4 pronto.
-
-Você não escreve uma linha de prompt. Você não abre Premiere. Você só:
-1. **Aprova** o que o agente sugere
-2. **Cola** o script no HeyGen e clica em Generate
-3. **Baixa** o MP4 e joga numa pasta
-4. **Roda** um comando
-
-Pronto.
+Acha um ad bombando no TikTok. Cola aqui. O agente lê, escreve o roteiro, te dá o briefing pra colar no HeyGen e SuperGrok, e monta o MP4 final pronto pra subir. Tudo automatizado, exceto 2-3 cliques manuais.
 
 ---
 
-## Pra quem é isso
-
-- Produtor lowticket que precisa **escalar criativo** sem gastar fortuna em editor
-- Afiliado que quer **clonar a copy vencedora** do concorrente com a SUA cara/produto
-- Dropshipper que quer **gerar 10 variações de UGC** num dia
-- Ecom que quer **testar 5 ângulos diferentes** sem gravar nada
-
----
-
-## Quer vender produto lowticket no ar em 1 hora?
-
-A **Formação Produtor Milionário** ensina o sistema completo do zero ao primeiro dinheiro: nicho, copy, página, tráfego — tudo com Claude.
-
-👉 **https://produtor.geekacademy.site** — *primeira venda no mesmo dia que você lançar.*
-
----
-
-## Como funciona
+## ⚡ Em 3 passos
 
 ```
-[Você acha um ad no TikTok]
-         ↓
-[Joga o link / arquivo no agente]
-         ↓
-[Agente analisa: script, setting, character, beats]
-         ↓
-[Agente entrega: SCRIPT + BRIEFING HeyGen + PROMPTS imagem + KEYWORDS Pexels]
-         ↓
-[Você aprova → cola no HeyGen → baixa MP4 → salva em assets/]
-         ↓
-[Você roda: python <template>/build.py]
-         ↓
-[ffmpeg monta tudo localmente]
-         ↓
-[MP4 final em outputs/]
+1. Joga referência no agente   →   "Clona esse ad pra mim"
+2. Agente entrega script + briefing HeyGen + prompts SuperGrok
+3. Você cola, baixa MP4, roda 1 comando   →   ad pronto em outputs/
 ```
 
-**O agente nunca chama nenhuma API de geração de vídeo.** Tudo manual (HeyGen UI) ou local (ffmpeg).
+---
+
+## 🎯 Pra quem
+
+- **Produtor lowticket** que precisa escalar criativo sem editor
+- **Afiliado** que clona a copy vencedora do concorrente
+- **Dropshipper** que gera 10 variações por dia
+- **Ecom** que testa 5 ângulos sem gravar nada
+
+> 💎 **Lowticket no ar em 1h. Primeira venda no mesmo dia.**
+> 👉 Formação Produtor Milionário → https://produtor.geekacademy.site
 
 ---
 
-## Stack — tudo grátis ou com plano que você já tem
+## 🧰 Stack
 
-| Função | Ferramenta | Custo | Onde roda |
-|--------|------------|-------|-----------|
-| Geração avatar talking head | **HeyGen** (UI manual) | seu plano pago* | web |
-| Geração imagem + vídeo animado | **SuperGrok / Grok Imagine** (UI manual) | seu plano pago* | web |
-| Voiceover (opcional) | **ElevenLabs** | grátis 10k chars/mês | API |
-| B-roll lifestyle (fallback) | **Pexels** | grátis ∞ | API |
-| Música | **Pixabay** / **YouTube Audio Library** | grátis | manual |
-| Transcrição + timestamps | **faster-whisper** | grátis | local CPU |
-| Montagem final | **ffmpeg** | grátis | local |
-| Agente | **Claude Code** / **Codex CLI** / **Gemini CLI** | seu plano | local |
+| Função | Ferramenta | Modo | Custo |
+|--------|------------|------|-------|
+| Avatar talking head | **HeyGen** | UI manual | plano pago* |
+| Imagem + animação vídeo | **SuperGrok / Grok Imagine** | UI manual | plano pago* |
+| Voiceover (opcional) | **ElevenLabs** | API | grátis 10k chars/mês |
+| B-roll fallback | **Pexels** | API | grátis ∞ |
+| Música | **Pixabay / YouTube Audio Library** | manual | grátis |
+| Transcrição | **faster-whisper** | local CPU | grátis |
+| Montagem final | **ffmpeg** | local | grátis |
+| Agente | **Claude Code** / **Codex** / **Gemini** | local | seu plano |
 
-*Não tem HeyGen ou SuperGrok pago? **Rateio Ferramentas IA** dá acesso compartilhado: 👉 https://rateaki.geekacademy.site
+\* Não tem HeyGen / SuperGrok? **Rateio Ferramentas IA** dá acesso compartilhado:
+👉 https://rateaki.geekacademy.site
 
 ---
 
-## Escolha seu agente
+## 🤖 Funciona com 3 agentes
 
-Funciona em três agentes diferentes. **Você decide qual usar.**
-
-| Agente | Arquivo de regras | Instalação |
-|--------|-------------------|------------|
+| Agente | Arquivo regras | Instalação |
+|--------|----------------|------------|
 | **Claude Code** (recomendado) | `CLAUDE.md` | https://claude.com/claude-code |
 | **OpenAI Codex CLI** | `AGENTS.md` | `npm i -g @openai/codex` |
 | **Gemini CLI** | `GEMINI.md` | `npm i -g @google/gemini-cli` |
 
-Os três leem o mesmo workflow. Você usa o que você tem.
+Os três leem o mesmo workflow. Use o que você já tem.
 
 ---
 
-## Instalação — passo a passo
+# 🛠️ INSTALAÇÃO — passo a passo
 
-### 1. Clonar este repositório
+### Passo 1 — Clone o repositório
 
 ```bash
 git clone https://github.com/Geeknosnegocios/geekclaudeUGC.git
 cd geekclaudeUGC
 ```
 
-### 2. Instalar Python 3.10+
+### Passo 2 — Instale Python 3.10+
 
-- Windows: https://www.python.org/downloads/windows/ (marca "Add Python to PATH")
-- Mac: `brew install python@3.11`
-- Linux: `sudo apt install python3 python3-pip`
+- **Windows:** https://www.python.org/downloads/windows/
+  *(marque "Add Python to PATH" durante instalação)*
+- **Mac:** `brew install python@3.11`
+- **Linux:** `sudo apt install python3 python3-pip`
 
-### 3. Instalar dependências
+Verifica:
+```bash
+python --version
+# Deve mostrar Python 3.10 ou superior
+```
+
+### Passo 3 — Instale as dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Instalar ffmpeg (se não tiver)
+Instala: `requests`, `python-dotenv`, `imageio-ffmpeg`, `faster-whisper`, `elevenlabs`.
 
-- Windows: `winget install ffmpeg` ou `scoop install ffmpeg`
-- Mac: `brew install ffmpeg`
-- Linux: `sudo apt install ffmpeg`
+### Passo 4 — Instale o ffmpeg (opcional)
 
-> Se você não conseguir instalar, sem problema — o pacote `imageio-ffmpeg` já vem com um ffmpeg embutido (já está no `requirements.txt`).
+- **Windows:** `winget install ffmpeg` ou `scoop install ffmpeg`
+- **Mac:** `brew install ffmpeg`
+- **Linux:** `sudo apt install ffmpeg`
 
-### 5. Criar o `.env`
+> Não conseguiu instalar? Tranquilo. O pacote `imageio-ffmpeg` (já instalado no passo 3) tem um ffmpeg embutido que vai funcionar.
+
+### Passo 5 — Crie o arquivo `.env`
 
 ```bash
 cp .env.example .env
 ```
 
-Edita o `.env` e preenche:
+Abra o `.env` no seu editor e preencha:
 
 ```env
 PEXELS_KEY=sua_chave_aqui
@@ -129,39 +110,152 @@ ELEVEN_KEY=sua_chave_aqui
 ELEVEN_VOICE_ID=pNInz6obpgDQGcFmaJgB
 ```
 
-**Como pegar as chaves:**
+**Como pegar cada chave:**
 
-- **Pexels** (grátis, ilimitado): https://www.pexels.com/api/ → cria conta → copia a "Authorization" key
-- **ElevenLabs** (grátis 10k chars/mês): https://elevenlabs.io → Profile → API Key
-- **Voice ID ElevenLabs** (opcional, padrão é Adam multilingual): https://elevenlabs.io/app/voice-library → copia o ID
+#### `PEXELS_KEY` — grátis, ilimitado
+1. Acesse https://www.pexels.com/api/
+2. Crie uma conta
+3. Copie a "Authorization" key da página
+4. Cole no `.env`
 
-### 6. Abrir o agente nessa pasta
+#### `ELEVEN_KEY` — grátis 10k chars/mês
+1. Acesse https://elevenlabs.io
+2. Crie conta
+3. Vá em **Profile → API Key**
+4. Copie e cole no `.env`
 
-Escolha um:
+#### `ELEVEN_VOICE_ID` — opcional
+- Padrão é Adam multilingual (`pNInz6obpgDQGcFmaJgB`) — funciona PT-BR e EN
+- Quer outra voz? https://elevenlabs.io/app/voice-library → escolhe → copia o ID
+
+### Passo 6 — Abra o agente nessa pasta
+
+Escolha um dos três:
 
 ```bash
 # Claude Code
 claude
 
-# Codex CLI
+# OR Codex CLI
 codex
 
-# Gemini CLI
+# OR Gemini CLI
 gemini
 ```
 
-Pronto. Diz pra ele: *"Clona esse ad pra mim"* e cola o link / arquivo.
+**Pronto. Setup completo.**
 
 ---
 
-## Os 5 tipos de clone
+# 🎬 PRIMEIRO AD — passo a passo
+
+Vamos clonar um ad usando o template **01 — Talking Head** (mais simples).
+
+### Passo 1 — Encontre o ad referência
+
+Vá em uma dessas:
+- **TikTok Ad Library** → https://library.tiktok.com (filtre por indústria, sort por impressões)
+- **Meta Ad Library** → https://www.facebook.com/ads/library
+- Salva o link OU baixa o MP4
+
+Procure ads que estejam rodando há **30+ dias** — se ainda estão gastando, estão convertendo.
+
+### Passo 2 — Joga no agente
+
+Cole no chat do Claude/Codex/Gemini:
+
+```
+Clona esse ad pra mim:
+https://www.tiktok.com/@brand/video/123456
+
+É de skincare. Vou anunciar meu produto X (descrição curta).
+```
+
+### Passo 3 — Agente analisa e entrega
+
+O agente vai te mostrar:
+
+1. **Análise da referência:** script, setting, character, beats
+2. **Script adaptado PT-BR** pro seu produto
+3. **Briefing HeyGen** (avatar, voz, script pra colar)
+4. **Lista de assets** que você precisa colocar em `assets/`
+
+Exemplo do que ele entrega:
+
+> **Script PT-BR (14s):**
+> *"Você comprou um sérum achando que ia ser igual aos outros, né? Três dias depois sua pele tava tipo... vidro. Olha isso." [pausa] "Link na bio."*
+>
+> **Briefing HeyGen:**
+> - URL: https://app.heygen.com/
+> - Avatar: Yara (mulher PT-BR, 25-30, natural)
+> - Voice: Yara PT-BR
+> - Aspect: 9:16, 720p
+> - Cole o script acima
+> - Salve como `01_talking_head/assets/heygen.mp4`
+
+### Passo 4 — Aprove e gera no HeyGen
+
+Você responde "go" / "manda" / "ok".
+
+1. Abra https://app.heygen.com/
+2. **Create Video → AI Avatar** (ou Avatar IV)
+3. Cole o script
+4. Escolha o avatar e voice sugeridos
+5. Aspect ratio **9:16 vertical**, 720p ou superior
+6. Clique **Generate** (aguarde 1-3 min)
+7. Clique **Download** → MP4
+8. Salve em: `01_talking_head/assets/heygen.mp4`
+
+> 💎 **Não tem HeyGen?** → https://rateaki.geekacademy.site
+
+### Passo 5 — (Opcional) Música
+
+Se quer música de fundo:
+
+1. Baixa um instrumental em https://pixabay.com/music/ ou https://www.youtube.com/audiolibrary/music
+2. Salva como `01_talking_head/assets/music.mp3`
+
+> Pular esse passo deixa o ad só com a voz do HeyGen.
+
+### Passo 6 — Roda o build
+
+Volta no agente e diz "roda" / "manda".
+
+Ele executa:
+
+```bash
+python 01_talking_head/build.py
+```
+
+Saída esperada (~10 segundos):
+
+```
+=== 01 Talking Head v1 ===
+  source: 01_talking_head/assets/heygen.mp4
+  music : 01_talking_head/assets/music.mp3
+[1/3] normalize 720x1280@30fps
+[2/3] loudnorm -16 LUFS
+[3/3] overlay music bed (-22 dB)
+
+DONE -> 01_talking_head/outputs/talking_head_v1.mp4 (3200 KB)
+```
+
+### Passo 7 — Sobe pro TikTok / Reels
+
+Pega o `outputs/talking_head_v1.mp4`. Sobe direto no TikTok / Reels. **Pronto.**
+
+> Rodou mais uma vez? Vira `talking_head_v2.mp4`. Auto-versionado. Nada sobrescrito.
+
+---
+
+# 📚 OS 5 TEMPLATES
 
 ### 01 — Talking Head
-Influencer falando direto pra câmera. Selfie, quarto/rua.
+Influencer falando direto pra câmera. Selfie, bedroom ou outdoor.
 
-**Você fornece:** referência do ad (link ou MP4)
+**Você fornece:** referência (link/MP4 do ad)
 **Agente gera:** script PT-BR + briefing HeyGen
-**Você faz manual:** gera no HeyGen, salva `01_talking_head/assets/heygen.mp4`
+**Você faz manual:** HeyGen → `01_talking_head/assets/heygen.mp4`
 **Roda:** `python 01_talking_head/build.py`
 
 ---
@@ -169,11 +263,12 @@ Influencer falando direto pra câmera. Selfie, quarto/rua.
 ### 02 — Product Unboxing
 Alguém abrindo a caixa, reagindo ao produto.
 
-**Você fornece:** foto do produto + foto da caixa + referência
-**Agente gera:** script reação + 3-6 prompts SuperGrok + briefings HeyGen (intro+outro)
+**Você fornece:** foto produto + caixa + referência
+**Agente gera:** script reação + briefings HeyGen (intro+outro) + 3-6 prompts SuperGrok
+
 **Você faz manual:**
-- HeyGen → `02_product_unboxing/assets/heygen_intro.mp4` e `heygen_outro.mp4`
-- SuperGrok Imagine → MP4s em `02_product_unboxing/assets/clips/clip_01.mp4`, `clip_02.mp4`, ...
+1. **HeyGen** → `02_product_unboxing/assets/heygen_intro.mp4` e `heygen_outro.mp4`
+2. **SuperGrok Imagine** → `02_product_unboxing/assets/clips/clip_01.mp4`, `clip_02.mp4`, ...
 
 **Roda:** `python 02_product_unboxing/build.py`
 
@@ -182,11 +277,12 @@ Alguém abrindo a caixa, reagindo ao produto.
 ### 03 — Faceless Lifestyle
 Mãos, pés, produto. Sem rosto. **Não precisa de HeyGen.**
 
-**Você fornece:** foto do produto + referência
+**Você fornece:** foto produto + referência
 **Agente gera:** voiceover script + prompts SuperGrok (primário) ou keywords Pexels (fallback)
+
 **Você faz manual:**
-- SuperGrok Imagine → MP4s em `03_faceless_lifestyle/assets/clips/clip_01.mp4`, ...
-- Voiceover → grava no celular OU deixa o `--tts` gerar
+- **SuperGrok Imagine** → `03_faceless_lifestyle/assets/clips/clip_01.mp4`, ...
+- **Voiceover** → grava no celular (salva como `assets/voiceover.mp3`) OU deixa o `--tts` gerar via ElevenLabs
 
 **Roda (com SuperGrok):**
 ```bash
@@ -195,8 +291,10 @@ python 03_faceless_lifestyle/build.py --tts "Seu voiceover aqui" --srt
 
 **Roda (fallback Pexels — sem SuperGrok):**
 ```bash
-python 03_faceless_lifestyle/build.py --query "hands holding skincare bottle" --tts "Seu voiceover aqui" --srt
+python 03_faceless_lifestyle/build.py --query "hands holding cream" --tts "Seu voiceover aqui" --srt
 ```
+
+> Flag `--srt` gera arquivo de legenda separado (não burna no vídeo).
 
 ---
 
@@ -204,92 +302,69 @@ python 03_faceless_lifestyle/build.py --query "hands holding skincare bottle" --
 Talking head + cortes do app rolando no celular.
 
 **Você fornece:** screen recording do app + referência
-**Agente gera:** script + briefing HeyGen
+**Agente gera:** script + briefing HeyGen + segment timing
+
 **Você faz manual:**
-- HeyGen → `04_app_promo/assets/heygen.mp4`
-- Screen recording → `04_app_promo/assets/app_demo.mp4`
+- **HeyGen** → `04_app_promo/assets/heygen.mp4`
+- **Screen recording** → `04_app_promo/assets/app_demo.mp4`
 
 **Roda:** `python 04_app_promo/build.py --segment 3.0`
+
+> `--segment 3.0` = alterna HeyGen ↔ app a cada 3s. Aumenta pra cortes mais longos.
 
 ---
 
 ### 05 — Extend and Stitch
-Junta 2+ MP4s num só, normalizados, com música opcional.
+Junta 2+ MP4s num só vídeo final, com música opcional.
 
-**Você fornece:** 2+ MP4s
+**Você fornece:** 2+ MP4s em `05_extend_and_stitch/assets/`
 **Roda:** `python 05_extend_and_stitch/build.py`
 
-Ordem = ordem alfabética. Renomeia pra `01_intro.mp4`, `02_body.mp4` pra controlar.
+> Ordem = ordem alfabética. Renomeia pra `01_intro.mp4`, `02_body.mp4` pra controlar.
 
 ---
 
-## Exemplo de sessão real (Claude Code)
-
-```
-> Você: Clona esse ad pra mim, é faceless de skincare
-        https://www.tiktok.com/@brand/video/123
-
-Claude: Lendo o vídeo... transcrevi com Whisper.
-
-        SCRIPT (PT-BR, 14s):
-        "Comprei esse sérum achando que ia ser igual aos outros.
-         Três dias depois minha pele tava tipo... vidro.
-         Não acreditei. Olha isso." [pausa] "Link na bio."
-
-        KEYWORDS PEXELS:
-        - "woman applying serum face"
-        - "skincare bottle hands"
-        - "morning routine bathroom"
-        - "glowing skin closeup"
-
-        VOICEOVER:
-        Vou gerar com ElevenLabs Adam multilingual? Ou você grava?
-
-        Quer aprender a vender produtos lowticket no ar em 1 hora?
-        Formação Produtor Milionário → https://produtor.geekacademy.site
-
-> Você: gera com elevenlabs
-
-Claude: [executa build.py com --tts]
-        DONE -> outputs/lifestyle_v1.mp4 (3.2 MB)
-                outputs/lifestyle_v1.srt
-```
-
----
-
-## Estrutura do repositório
+## 📁 Estrutura completa do repo
 
 ```
 geekclaudeUGC/
-├── CLAUDE.md           ← regras pro Claude Code
-├── AGENTS.md           ← regras pro Codex CLI
-├── GEMINI.md           ← regras pro Gemini CLI
-├── README.md           ← este arquivo
+├── CLAUDE.md              ← regras pro Claude Code
+├── AGENTS.md              ← regras pro Codex CLI
+├── GEMINI.md              ← regras pro Gemini CLI
+├── README.md              ← este arquivo
 ├── .env.example
 ├── .gitignore
 ├── requirements.txt
-├── lib/
-│   ├── version.py      ← auto-versioning v1, v2, v3
-│   ├── ffmpeg_path.py  ← locador de ffmpeg
-│   ├── stock.py        ← Pexels API
-│   ├── editor.py       ← ffmpeg wrappers
-│   ├── audio.py        ← ElevenLabs TTS + music finder
-│   ├── transcribe.py   ← faster-whisper + .srt
-│   └── hg.py           ← HeyGen briefing template
+├── lib/                   ← helpers reutilizáveis
+│   ├── version.py         ← auto-versioning v1, v2, v3
+│   ├── ffmpeg_path.py     ← localizador de ffmpeg
+│   ├── stock.py           ← Pexels API (b-roll)
+│   ├── editor.py          ← ffmpeg wrappers
+│   ├── audio.py           ← ElevenLabs + music finder
+│   ├── transcribe.py      ← faster-whisper + .srt
+│   ├── hg.py              ← briefing HeyGen
+│   └── grok.py            ← briefing SuperGrok
 ├── 01_talking_head/
-│   ├── assets/         ← você dropa heygen.mp4 aqui
-│   ├── outputs/
+│   ├── assets/            ← dropa heygen.mp4 (+ music.mp3 opcional)
+│   ├── outputs/           ← MP4 final aparece aqui
 │   └── build.py
 ├── 02_product_unboxing/
 │   ├── assets/
+│   │   ├── heygen_intro.mp4
+│   │   ├── heygen_outro.mp4
+│   │   └── clips/         ← clip_01.mp4, clip_02.mp4 ... (SuperGrok)
 │   ├── outputs/
 │   └── build.py
 ├── 03_faceless_lifestyle/
 │   ├── assets/
+│   │   ├── voiceover.mp3  ← (opcional, ou usa --tts)
+│   │   └── clips/         ← clip_01.mp4 ... (SuperGrok)
 │   ├── outputs/
 │   └── build.py
 ├── 04_app_promo/
 │   ├── assets/
+│   │   ├── heygen.mp4
+│   │   └── app_demo.mp4
 │   ├── outputs/
 │   └── build.py
 └── 05_extend_and_stitch/
@@ -300,52 +375,87 @@ geekclaudeUGC/
 
 ---
 
-## FAQ
+## ❓ FAQ
 
-**P: Preciso pagar HeyGen?**
-R: Sim, o plano grátis dele não tem download de MP4 sem watermark. Mas você pode entrar no rateio: https://rateaki.geekacademy.site
+**P: Preciso pagar HeyGen e SuperGrok?**
+R: Pra qualidade top, sim. Free tier do HeyGen tem watermark e não tem API. Sem assinar, use o rateio:
+👉 https://rateaki.geekacademy.site
 
 **P: Funciona sem GPU?**
-R: Sim. ffmpeg roda em CPU. faster-whisper roda em CPU (modelo `small` leva ~3s pra transcrever 15s de áudio).
+R: Sim. Tudo aqui roda CPU. `faster-whisper` modelo `small` transcreve 15s em ~3s.
 
-**P: Os MP4s ficam com watermark?**
-R: Não. HeyGen e SuperGrok planos pagos entregam sem watermark. ffmpeg só copia.
+**P: Os MP4s saem com watermark?**
+R: Não. HeyGen e SuperGrok planos pagos entregam limpo. ffmpeg só copia.
 
-**P: Quanto custa por vídeo gerado?**
-R: $0 fora de HeyGen e SuperGrok (que você já paga ou rateia em https://rateaki.geekacademy.site). Pexels grátis. ElevenLabs grátis até 10k chars/mês.
+**P: Quanto custa por vídeo gerado pelo pipeline?**
+R: $0 fora de HeyGen e SuperGrok (que você já paga ou rateia). Pexels grátis ∞. ElevenLabs grátis 10k chars/mês.
 
 **P: Em quanto tempo eu monto um ad?**
-R: ~10 min do "joguei a referência" até "MP4 pronto", incluindo o tempo do HeyGen gerar (~2min).
+R: ~10-15 min do "joguei a referência" até "MP4 pronto pra subir". Maior tempo é o HeyGen gerar (~2min) + SuperGrok gerar (~3min por clip).
 
-**P: Posso usar em inglês?**
+**P: Funciona em inglês?**
 R: Sim. Diz pro agente *"in English"* e ele troca tudo. Voice ID padrão é Adam (multilingual).
 
-**P: E o copyright dos ads que eu clono?**
-R: Você não copia o vídeo. Você copia o **conceito + script structure** e produz tudo do zero com sua marca/produto. Mesma lógica que toda agência usa.
+**P: E copyright dos ads que eu clono?**
+R: Você não copia o vídeo. Copia o **conceito + estrutura de script** e produz tudo do zero com sua marca/produto. Mesma lógica que toda agência usa.
+
+**P: Os arquivos do meu ad vão pro GitHub?**
+R: Não. `.gitignore` ignora todos `.mp4`, `.mp3`, `.png`, `.jpg`, `.srt` e o `.env`. Só código vai pro repo.
+
+**P: Posso vender ads gerados aqui pra clientes?**
+R: Sim. Cobra agência: $50-200 por ad, ~15 min de trabalho seu. Quer aprender a faturar com lowticket?
+👉 https://produtor.geekacademy.site
 
 ---
 
-## Roadmap
+## 🐛 Troubleshooting
 
-- [ ] Template 06: Reaction style (split-screen reagindo a ad de concorrente)
+**Erro `PEXELS_KEY missing in .env`:**
+- Você preencheu? `cat .env` (Mac/Linux) ou `type .env` (Windows) → confere se a chave tá lá.
+
+**Erro `ELEVEN_KEY missing`:**
+- Idem acima. Pega em https://elevenlabs.io/app/settings/api-keys
+
+**Erro `Missing: 01_talking_head/assets/heygen.mp4`:**
+- Você esqueceu de salvar o MP4 do HeyGen na pasta certa. Volta no passo 4.
+
+**Erro `Need >=2 clips in assets/clips/`:**
+- Você gerou só 1 clip no SuperGrok. Gera pelo menos 2 e nomeia `clip_01.mp4`, `clip_02.mp4`.
+
+**Erro `ffmpeg not found`:**
+- Roda `pip install imageio-ffmpeg` (vem com binário embutido).
+
+**Vídeo final ficou sem áudio:**
+- Confere que o HeyGen baixou COM áudio (não export "video only"). Re-baixa.
+
+**Vídeo tá distorcido:**
+- O original não é 9:16 vertical. ffmpeg adiciona padding preto. Re-gere no HeyGen/SuperGrok como 9:16.
+
+---
+
+## 🚀 Roadmap
+
+- [ ] Template 06 — Reaction style (split-screen reagindo a ad concorrente)
 - [ ] Auto-upload TikTok / Instagram via UI automation
 - [ ] Detector de hook strength (analisa primeiros 3s)
-- [ ] Variações automáticas (gera 5 scripts diferentes do mesmo conceito)
+- [ ] Gerador de variações automáticas (5 scripts diferentes do mesmo conceito)
 
 ---
 
-## Licença
+## 📄 Licença
 
-MIT. Faz o que quiser. Cita se for legal.
+MIT. Faz o que quiser. Atribui se for legal.
 
 ---
 
-## Crédito
+## 🧠 Créditos
 
 Construído por **Geek nos Negócios** + Claude.
 
-- 🎓 **Formação Produtor Milionário** → https://produtor.geekacademy.site
-- 🛠️ **Rateio Ferramentas IA** → https://rateaki.geekacademy.site
-- 📺 **Geek Academy YouTube** → busca por "geeknosnegocios"
+- 🎓 **Formação Produtor Milionário** *(lowticket no ar em 1h, primeira venda no mesmo dia, com Claude)* → https://produtor.geekacademy.site
+- 🛠️ **Rateio Ferramentas IA** *(HeyGen + SuperGrok + ElevenLabs + outras)* → https://rateaki.geekacademy.site
+- 📺 **YouTube** → busca por "Geek nos Negócios"
 
-> Lowticket no ar em 1 hora. Primeira venda no mesmo dia. Com Claude.
+---
+
+> **Lowticket no ar em 1 hora. Primeira venda no mesmo dia. Com Claude.**
