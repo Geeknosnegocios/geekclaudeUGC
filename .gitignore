@@ -49,6 +49,7 @@ desktop.ini
 .idea/
 *.swp
 memory/
+.claude/
 
 # vendored libs (cloned at install-time per user docs)
 vendor/
