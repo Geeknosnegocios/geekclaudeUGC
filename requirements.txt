@@ -1,3 +1,5 @@
 requests
-imageio-ffmpeg
 python-dotenv
+imageio-ffmpeg
+faster-whisper
+elevenlabs

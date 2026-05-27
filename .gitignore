@@ -1,9 +1,50 @@
+# secrets
 .env
+
+# media (never commit raw inputs/outputs)
 *.mp4
 *.mov
 *.MP4
 *.MOV
+*.m4v
+*.M4V
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.png
+*.jpg
+*.jpeg
+*.PNG
+*.JPG
+*.JPEG
+*.srt
+
+# keep template structure but ignore contents
+*/assets/*
+!*/assets/.gitkeep
+*/assets/outputs/
+*/assets/frames/
+*/assets/broll/
+*/outputs/*
+!*/outputs/.gitkeep
+
+# python
 __pycache__/
 *.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# os
 .DS_Store
-assets/outputs/
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
