@@ -153,12 +153,38 @@ Vamos clonar um ad usando o template **01 — Talking Head** (mais simples).
 
 ### Passo 1 — Encontre o ad referência
 
-Vá em uma dessas:
-- **TikTok Ad Library** → https://library.tiktok.com (filtre por indústria, sort por impressões)
-- **Meta Ad Library** → https://www.facebook.com/ads/library
-- Salva o link OU baixa o MP4
+#### Onde procurar (com Brasil)
 
-Procure ads que estejam rodando há **30+ dias** — se ainda estão gastando, estão convertendo.
+| Biblioteca | URL | Cobertura | Login? |
+|------------|-----|-----------|--------|
+| **TikTok Creative Center** ✅ | https://ads.tiktok.com/business/creativecenter/topads/pc/en | Global (BR incluso) | TikTok conta |
+| **Meta Ad Library** ✅ | https://www.facebook.com/ads/library | Global (BR incluso) | não |
+| ~~TikTok Ad Library~~ ❌ | ~~https://library.tiktok.com~~ | **só EU/EEA** | não |
+
+> A `library.tiktok.com` só serve União Europeia por exigência do DSA. Pra Brasil/US, use o **TikTok Creative Center** (gratuito, mesma origem TikTok).
+
+#### Filtros no TikTok Creative Center
+
+1. Topo direito → **Region:** Brazil
+2. **Industry:** seu nicho (Beauty, Health, Food, etc.)
+3. **Objective:** Conversions OR Traffic
+4. **Time:** Last 30 days
+5. **Sort by:** CTR descending
+
+Procure ads que estejam rodando há **30+ dias** com **CTR > 1%** — se ainda gastam, estão convertendo.
+
+#### Como baixar o MP4
+
+TikTok Creative Center não tem botão download direto. Use uma destas:
+
+**Opção A — SnapTik (recomendado):**
+1. Clica no ad → copia URL TikTok
+2. Vai em https://snaptik.app/
+3. Cola URL → Download MP4
+
+**Opção B — Browser extension:** instala **Video DownloadHelper** (Chrome/Firefox)
+
+**Opção C — OBS Studio:** grava a tela rodando o ad
 
 ### Passo 2 — Joga no agente
 

@@ -22,7 +22,22 @@ You DO NOT call any video generation API. Your job is to:
 
 **Never skip steps. Never run a build without confirming all required assets exist.**
 
-### Step 1 — Analyze the reference
+### Step 1 — Find and analyze the reference
+
+When asked to find a reference ad, guide the user to the correct ad library:
+
+| Library | URL | Coverage |
+|---------|-----|----------|
+| **TikTok Creative Center** | https://ads.tiktok.com/business/creativecenter/topads/pc/en | Global incl. BR |
+| **Meta Ad Library** | https://www.facebook.com/ads/library | Global incl. BR |
+| ~~`library.tiktok.com`~~ | — | **EU/EEA only — do NOT recommend for BR/US** |
+
+Filters in TikTok Creative Center: Region (BR), Industry (niche), Objective (Conversions/Traffic), Time (Last 30 days), Sort by CTR desc. Look for ads with CTR > 1% running 30+ days.
+
+Download options (Creative Center has no direct download):
+- **SnapTik** → https://snaptik.app/ (paste TikTok URL, download MP4)
+- Video DownloadHelper browser extension
+- OBS Studio screen capture
 
 When the user provides a reference video or image, extract:
 - The **script** (transcribe with Whisper if it's a video — `faster-whisper` is local)
