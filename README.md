@@ -2,7 +2,7 @@
 
 > **Clone qualquer ad UGC vencedor em 15 minutos. Sem editar vídeo. Sem aparecer. Custo perto de zero.**
 
-Você acha um ad bombando no TikTok / Instagram / Facebook Ads Library. Joga aqui dentro. O agente (Claude, Codex ou Gemini) lê o ad, **escreve o roteiro**, te dá **o briefing pra colar no HeyGen**, baixa o b-roll do **Pexels**, transcreve, monta tudo no **ffmpeg**, e te entrega o MP4 pronto.
+Você acha um ad bombando no TikTok / Instagram / Facebook Ads Library. Joga aqui dentro. O agente (Claude, Codex ou Gemini) lê o ad, **escreve o roteiro**, te dá **o briefing pra colar no HeyGen + SuperGrok**, transcreve voiceover com Whisper local, monta tudo no **ffmpeg**, e te entrega o MP4 pronto.
 
 Você não escreve uma linha de prompt. Você não abre Premiere. Você só:
 1. **Aprova** o que o agente sugere
@@ -60,15 +60,15 @@ A **Formação Produtor Milionário** ensina o sistema completo do zero ao prime
 | Função | Ferramenta | Custo | Onde roda |
 |--------|------------|-------|-----------|
 | Geração avatar talking head | **HeyGen** (UI manual) | seu plano pago* | web |
-| Geração imagens estáticas | **ImageFX** / **Bing** / **Ideogram** | grátis | web |
+| Geração imagem + vídeo animado | **SuperGrok / Grok Imagine** (UI manual) | seu plano pago* | web |
 | Voiceover (opcional) | **ElevenLabs** | grátis 10k chars/mês | API |
-| B-roll lifestyle | **Pexels** | grátis ∞ | API |
+| B-roll lifestyle (fallback) | **Pexels** | grátis ∞ | API |
 | Música | **Pixabay** / **YouTube Audio Library** | grátis | manual |
 | Transcrição + timestamps | **faster-whisper** | grátis | local CPU |
 | Montagem final | **ffmpeg** | grátis | local |
 | Agente | **Claude Code** / **Codex CLI** / **Gemini CLI** | seu plano | local |
 
-*Não tem HeyGen pago? **Rateio Ferramentas IA** dá acesso compartilhado: 👉 https://rateaki.geekacademy.site
+*Não tem HeyGen ou SuperGrok pago? **Rateio Ferramentas IA** dá acesso compartilhado: 👉 https://rateaki.geekacademy.site
 
 ---
 
@@ -170,10 +170,10 @@ Influencer falando direto pra câmera. Selfie, quarto/rua.
 Alguém abrindo a caixa, reagindo ao produto.
 
 **Você fornece:** foto do produto + foto da caixa + referência
-**Agente gera:** script reação + 4 prompts de imagem + briefings HeyGen (intro+outro)
+**Agente gera:** script reação + 3-6 prompts SuperGrok + briefings HeyGen (intro+outro)
 **Você faz manual:**
 - HeyGen → `02_product_unboxing/assets/heygen_intro.mp4` e `heygen_outro.mp4`
-- ImageFX/Bing/Ideogram → 4 PNGs em `02_product_unboxing/assets/frames/`
+- SuperGrok Imagine → MP4s em `02_product_unboxing/assets/clips/clip_01.mp4`, `clip_02.mp4`, ...
 
 **Roda:** `python 02_product_unboxing/build.py`
 
@@ -183,10 +183,17 @@ Alguém abrindo a caixa, reagindo ao produto.
 Mãos, pés, produto. Sem rosto. **Não precisa de HeyGen.**
 
 **Você fornece:** foto do produto + referência
-**Agente gera:** voiceover script + keywords Pexels + (opcional) prompts hero shots
-**Você faz manual:** grava voiceover no celular OU deixa o `--tts` gerar
+**Agente gera:** voiceover script + prompts SuperGrok (primário) ou keywords Pexels (fallback)
+**Você faz manual:**
+- SuperGrok Imagine → MP4s em `03_faceless_lifestyle/assets/clips/clip_01.mp4`, ...
+- Voiceover → grava no celular OU deixa o `--tts` gerar
 
-**Roda:**
+**Roda (com SuperGrok):**
+```bash
+python 03_faceless_lifestyle/build.py --tts "Seu voiceover aqui" --srt
+```
+
+**Roda (fallback Pexels — sem SuperGrok):**
 ```bash
 python 03_faceless_lifestyle/build.py --query "hands holding skincare bottle" --tts "Seu voiceover aqui" --srt
 ```
@@ -302,10 +309,10 @@ R: Sim, o plano grátis dele não tem download de MP4 sem watermark. Mas você p
 R: Sim. ffmpeg roda em CPU. faster-whisper roda em CPU (modelo `small` leva ~3s pra transcrever 15s de áudio).
 
 **P: Os MP4s ficam com watermark?**
-R: Não. HeyGen plano pago entrega sem watermark. ImageFX/Bing entregam sem watermark. ffmpeg só copia.
+R: Não. HeyGen e SuperGrok planos pagos entregam sem watermark. ffmpeg só copia.
 
 **P: Quanto custa por vídeo gerado?**
-R: $0 fora do HeyGen (que você já paga ou rateia). Pexels grátis. ElevenLabs grátis até 10k chars/mês. Imagem grátis.
+R: $0 fora de HeyGen e SuperGrok (que você já paga ou rateia em https://rateaki.geekacademy.site). Pexels grátis. ElevenLabs grátis até 10k chars/mês.
 
 **P: Em quanto tempo eu monto um ad?**
 R: ~10 min do "joguei a referência" até "MP4 pronto", incluindo o tempo do HeyGen gerar (~2min).

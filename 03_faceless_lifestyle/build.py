@@ -1,39 +1,42 @@
-"""03 Faceless Lifestyle — Pexels b-roll + voiceover + optional manual hero frames.
+"""03 Faceless Lifestyle — SuperGrok clips (primary) OR Pexels b-roll (fallback).
 
 Pipeline:
-  1. Claude writes voiceover script + Pexels keywords
+  1. Claude writes voiceover script + SuperGrok prompts
   2. Voiceover source (one of):
-       (a) Run with --tts to generate via ElevenLabs (free 10k chars/mo)
+       (a) Run with --tts "TEXT" to generate via ElevenLabs (free 10k chars/mo)
        (b) User drops assets/voiceover.mp3 (recorded on phone)
-  3. (Optional) User drops 1-2 hero frames at assets/frames/hero_01.png
-  4. Script auto-downloads Pexels b-roll, transcribes voiceover, beat-cuts, exports.
+  3. Video source (one of):
+       (a) User generates clips via SuperGrok -> assets/clips/clip_01.mp4 ...
+       (b) Run with --query "search words" -> downloads Pexels stock (fallback)
+  4. Script auto-transcribes, normalizes, concats, exports.
+
+SuperGrok: https://grok.com/  |  Rateio: https://rateaki.geekacademy.site
 """
 import os
 import sys
-import shutil
 import argparse
 import subprocess
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from lib.version import next_version, ensure_dir
-from lib.editor import normalize, ken_burns, concat, FFMPEG, probe_duration
+from lib.editor import normalize, concat, FFMPEG, probe_duration
 from lib.stock import fetch_broll
 from lib.audio import find_voiceover, find_music, tts
 from lib.transcribe import transcribe, write_srt
+from lib.grok import find_clips
 
 HERE = os.path.dirname(__file__)
 ASSETS = os.path.join(HERE, "assets")
 BROLL = os.path.join(ASSETS, "broll")
-FRAMES = os.path.join(ASSETS, "frames")
 OUT = ensure_dir(os.path.join(HERE, "outputs"))
 TMP = ensure_dir(os.path.join(OUT, ".tmp"))
 
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--query", required=True, help='Pexels search query (e.g. "hands holding cream")')
-    p.add_argument("--clips", type=int, default=6)
+    p.add_argument("--query", help="(Fallback) Pexels search if no SuperGrok clips present")
+    p.add_argument("--clips", type=int, default=6, help="(Fallback) Pexels clip count")
     p.add_argument("--tts", help="If set, synthesize voiceover from this text via ElevenLabs")
     p.add_argument("--srt", action="store_true", help="Also write a .srt subtitle file (no burn)")
     return p.parse_args()
@@ -55,48 +58,49 @@ def main() -> None:
         tts(args.tts, vo)
     if not vo:
         raise FileNotFoundError(
-            f"\n  No voiceover found.\n"
-            f"  Options:\n"
-            f"   (a) Drop assets/voiceover.mp3 (record on phone)\n"
-            f"   (b) Re-run with --tts \"YOUR SCRIPT HERE\"  (uses ElevenLabs free tier)"
+            "\n  No voiceover found. Options:\n"
+            "   (a) Drop assets/voiceover.mp3 (record on phone)\n"
+            "   (b) Re-run with --tts \"YOUR SCRIPT\"  (ElevenLabs free)"
         )
     vo_dur = probe_duration(vo)
     print(f"  voiceover: {vo} ({vo_dur:.1f}s)")
 
-    # 2. transcribe + cut points
+    # 2. transcribe + optional srt
     print("[1/5] transcribe voiceover (faster-whisper)")
     full_text, words = transcribe(vo, language="pt")
     if srt_path:
         write_srt(words, srt_path)
         print(f"       wrote {srt_path}")
-    cut_count = max(args.clips, 4)
 
-    # 3. fetch b-roll
-    print(f"[2/5] fetch Pexels b-roll x{cut_count} (query: {args.query!r})")
-    broll = fetch_broll(args.query, BROLL, count=cut_count)
-    if len(broll) < 2:
-        raise RuntimeError(f"Pexels returned only {len(broll)} clips for query {args.query!r}")
+    # 3. video source: SuperGrok clips (primary) OR Pexels (fallback)
+    grok_clips = find_clips(ASSETS)
+    if grok_clips:
+        print(f"[2/5] using {len(grok_clips)} SuperGrok clips")
+        sources = grok_clips
+    else:
+        if not args.query:
+            raise FileNotFoundError(
+                "\n  No SuperGrok clips found in assets/clips/ AND no --query for Pexels fallback.\n"
+                "  Options:\n"
+                "   (a) Generate via SuperGrok -> assets/clips/clip_01.mp4 ...\n"
+                "       https://grok.com/  |  Rateio: https://rateaki.geekacademy.site\n"
+                "   (b) Re-run with --query \"hands holding cream\"  (Pexels fallback)"
+            )
+        print(f"[2/5] no SuperGrok clips, fetching {args.clips} Pexels b-roll (query={args.query!r})")
+        sources = fetch_broll(args.query, BROLL, count=args.clips)
+        if len(sources) < 2:
+            raise RuntimeError(f"Pexels returned only {len(sources)} clips for {args.query!r}")
 
-    # 4. optional hero frames -> ken_burns
-    hero_clips = []
-    if os.path.isdir(FRAMES):
-        heros = sorted([os.path.join(FRAMES, f) for f in os.listdir(FRAMES) if f.lower().endswith((".png", ".jpg", ".jpeg"))])
-        for i, h in enumerate(heros, 1):
-            out = os.path.join(TMP, f"hero_{i:02d}.mp4")
-            ken_burns(h, out, duration=2.0)
-            hero_clips.append(out)
-
-    # 5. normalize all clips, then trim each to ~vo_dur / N
-    print("[3/5] normalize clips")
-    all_clips = broll + hero_clips
-    seg_dur = vo_dur / max(len(all_clips), 1)
+    # 4. trim each clip to share of voiceover duration
+    seg_dur = vo_dur / max(len(sources), 1)
+    print(f"[3/5] normalize + trim each clip to {seg_dur:.2f}s (no audio)")
     norm_clips = []
-    for i, c in enumerate(all_clips, 1):
+    for i, c in enumerate(sources, 1):
+        pre = os.path.join(TMP, f"pre_{i:02d}.mp4")
+        normalize(c, pre, audio=False)
         n = os.path.join(TMP, f"norm_{i:02d}.mp4")
-        # normalize then trim to seg_dur (no audio)
-        tmp = os.path.join(TMP, f"pre_{i:02d}.mp4")
-        normalize(c, tmp, audio=False)
-        cmd = [FFMPEG, "-y", "-i", tmp, "-t", str(seg_dur), "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-an", n]
+        cmd = [FFMPEG, "-y", "-i", pre, "-t", str(seg_dur),
+               "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-an", n]
         r = subprocess.run(cmd, capture_output=True, text=True)
         if r.returncode != 0:
             raise RuntimeError(r.stderr[-600:])
@@ -110,12 +114,11 @@ def main() -> None:
             raise RuntimeError(r.stderr[-600:])
         norm_clips.append(n_aud)
 
-    # 6. concat
+    # 5. concat + mux voiceover (+optional music)
     print("[4/5] concat clips")
     video_concat = os.path.join(TMP, "video.mp4")
     concat(norm_clips, video_concat)
 
-    # 7. overlay voiceover (+ optional music)
     print("[5/5] mux voiceover + music")
     music = find_music(ASSETS)
     if music:

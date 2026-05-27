@@ -8,12 +8,12 @@ The full workflow rules live in `CLAUDE.md`. **Read it.** This file mirrors the 
 
 You are operating an UGC ad cloning workflow. Pipeline:
 1. Analyze a reference ad (video or image) the user provides
-2. Write the **PT-BR script + HeyGen briefing + image prompts + Pexels keywords**
-3. Wait for user approval, then guide them through manual steps in HeyGen / ImageFX
+2. Write the **PT-BR script + HeyGen briefing + SuperGrok prompts (+ Pexels keywords as fallback)**
+3. Wait for user approval, then guide them through manual steps in HeyGen / SuperGrok
 4. Run the local Python `build.py` in the matching template folder
 5. Report filename + size
 
-**You do NOT call any video generation API.** All video gen is manual (HeyGen UI by user) or local (ffmpeg).
+**You do NOT call any video generation API.** All video gen is manual (HeyGen UI + SuperGrok UI by user) or local (ffmpeg).
 
 ## Required reading
 

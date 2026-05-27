@@ -1,46 +1,39 @@
-"""02 Product Unboxing — HeyGen intro + frames + HeyGen outro.
+"""02 Product Unboxing — HeyGen intro/outro + SuperGrok video clips.
 
 Pipeline:
-  1. User generates 2 HeyGen videos: assets/heygen_intro.mp4, assets/heygen_outro.mp4
-  2. User generates 4 frames manually (ImageFX/Bing/Ideogram) -> assets/frames/frame_01..04.png
+  1. User generates 2 HeyGen videos (intro reaction + outro CTA)
+       -> assets/heygen_intro.mp4
+       -> assets/heygen_outro.mp4
+  2. User generates 3-6 unboxing clips via SuperGrok (Grok Imagine)
+       -> assets/clips/clip_01.mp4 ... clip_NN.mp4
   3. (Optional) User drops assets/music.mp3
   4. Run -> outputs/unboxing_v{N}.mp4
+
+SuperGrok: https://grok.com/  |  Rateio: https://rateaki.geekacademy.site
 """
 import os
 import sys
 import shutil
+import subprocess
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from lib.version import next_version, ensure_dir
-from lib.editor import normalize, ken_burns, concat, FFMPEG
+from lib.editor import normalize, concat, FFMPEG
 from lib.audio import find_music
 from lib.hg import require_heygen
+from lib.grok import require_clips
 
 HERE = os.path.dirname(__file__)
 ASSETS = os.path.join(HERE, "assets")
-FRAMES = os.path.join(ASSETS, "frames")
 OUT = ensure_dir(os.path.join(HERE, "outputs"))
 TMP = ensure_dir(os.path.join(OUT, ".tmp"))
-
-
-def collect_frames() -> list:
-    if not os.path.isdir(FRAMES):
-        raise FileNotFoundError(
-            f"\n  Missing folder: {FRAMES}\n"
-            f"  Generate 4 frames manually (ImageFX / Bing Image Creator / Ideogram)\n"
-            f"  and save as frame_01.png, frame_02.png, frame_03.png, frame_04.png"
-        )
-    files = sorted([f for f in os.listdir(FRAMES) if f.lower().endswith((".png", ".jpg", ".jpeg"))])
-    if len(files) < 2:
-        raise FileNotFoundError(f"Need >=2 frames in {FRAMES}, found {len(files)}")
-    return [os.path.join(FRAMES, f) for f in files]
 
 
 def main() -> None:
     intro = require_heygen(ASSETS, "heygen_intro.mp4")
     outro = require_heygen(ASSETS, "heygen_outro.mp4")
-    frames = collect_frames()
+    clips = require_clips(ASSETS, min_count=2)
     music = find_music(ASSETS)
 
     v = next_version(OUT, "unboxing")
@@ -49,40 +42,27 @@ def main() -> None:
     print(f"=== 02 Product Unboxing v{v} ===")
     print(f"  intro : {intro}")
     print(f"  outro : {outro}")
-    print(f"  frames: {len(frames)}")
+    print(f"  clips : {len(clips)} SuperGrok clips")
+    for c in clips:
+        print(f"    - {os.path.basename(c)}")
     print(f"  music : {music or '(none)'}")
 
-    print("[1/4] normalize intro/outro")
-    n_intro = os.path.join(TMP, "intro.mp4"); normalize(intro, n_intro)
-    n_outro = os.path.join(TMP, "outro.mp4"); normalize(outro, n_outro)
+    print("[1/3] normalize all clips")
+    norm_intro = os.path.join(TMP, "intro.mp4"); normalize(intro, norm_intro)
+    norm_outro = os.path.join(TMP, "outro.mp4"); normalize(outro, norm_outro)
+    norm_clips = []
+    for i, c in enumerate(clips, 1):
+        n = os.path.join(TMP, f"clip_{i:02d}.mp4")
+        normalize(c, n)
+        norm_clips.append(n)
 
-    print(f"[2/4] ken_burns x{len(frames)} (2s each)")
-    kb_clips = []
-    for i, fr in enumerate(frames, 1):
-        out = os.path.join(TMP, f"kb_{i:02d}.mp4")
-        ken_burns(fr, out, duration=2.0)
-        kb_clips.append(out)
-
-    print("[3/4] normalize ken_burns clips (add silent audio)")
-    norm_kb = []
-    for i, c in enumerate(kb_clips, 1):
-        out = os.path.join(TMP, f"kb_norm_{i:02d}.mp4")
-        import subprocess
-        cmd = [FFMPEG, "-y", "-i", c, "-f", "lavfi", "-t", "2", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
-               "-c:v", "copy", "-c:a", "aac", "-shortest", out]
-        r = subprocess.run(cmd, capture_output=True, text=True)
-        if r.returncode != 0:
-            raise RuntimeError(r.stderr[-600:])
-        norm_kb.append(out)
-
-    print("[4/4] concat intro + frames + outro")
-    sequence = [n_intro] + norm_kb + [n_outro]
+    print("[2/3] concat intro + clips + outro")
+    sequence = [norm_intro] + norm_clips + [norm_outro]
     concat_out = os.path.join(TMP, "concat.mp4")
     concat(sequence, concat_out)
 
+    print("[3/3] final mux (+music)")
     if music:
-        print("    mix music bed")
-        import subprocess
         cmd = [
             FFMPEG, "-y", "-i", concat_out, "-i", music,
             "-filter_complex",
