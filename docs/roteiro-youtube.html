@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Roteiro Vídeo YouTube — Geek CLAUDE - UGC</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0a0a0a;
+    color: #f0f0f0;
+    line-height: 1.55;
+    padding: 40px 20px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 {
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    color: #999;
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+  .meta {
+    background: linear-gradient(135deg, #ff1745 0%, #df1238 100%);
+    color: #fff;
+    padding: 20px 28px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-weight: 600;
+  }
+  .meta span { font-size: 16px; }
+  .meta strong { font-weight: 800; letter-spacing: 0.04em; }
+  .step {
+    background: #181818;
+    border-left: 4px solid #ff1745;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+  }
+  .step h2 {
+    color: #ff1745;
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .step .num {
+    background: #ff1745;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .step h2 .title-text { color: #fff; }
+  .step .time {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .step .what {
+    background: #0a0a0a;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .step .what strong {
+    color: #ffd166;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .step .say {
+    background: #1a2b1a;
+    border-left: 3px solid #4ade80;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-style: italic;
+    color: #d0f0d0;
+  }
+  .step .say::before {
+    content: "🎤 FALA: ";
+    font-style: normal;
+    font-weight: 800;
+    color: #4ade80;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+  .step .show {
+    background: #2b1f1a;
+    border-left: 3px solid #ffd166;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    color: #ffe4a8;
+  }
+  .step .show::before {
+    content: "🎬 TELA: ";
+    font-weight: 800;
+    color: #ffd166;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+  .step .cta {
+    background: linear-gradient(135deg, rgba(255,23,69,0.18), rgba(223,18,56,0.18));
+    border: 2px solid #ff1745;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    color: #ffb4c0;
+    font-weight: 600;
+  }
+  .step .cta::before {
+    content: "💎 PITCH: ";
+    font-weight: 900;
+    color: #ff5470;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 4px;
+  }
+  ul { padding-left: 22px; margin: 10px 0; }
+  li { margin: 6px 0; color: #d0d0d0; }
+  code {
+    background: #0d0d0d;
+    color: #ffd166;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: "SF Mono", Consolas, Monaco, monospace;
+    font-size: 0.92em;
+  }
+  pre {
+    background: #050505;
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 12px 0;
+    border: 1px solid #222;
+  }
+  pre code {
+    background: transparent;
+    color: #4ade80;
+    padding: 0;
+    font-size: 14px;
+  }
+  .links {
+    background: #181818;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-top: 32px;
+    border: 1px solid #333;
+  }
+  .links h2 {
+    color: #ff1745;
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .links a {
+    display: block;
+    color: #ffd166;
+    text-decoration: none;
+    padding: 10px 0;
+    font-weight: 600;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .links a:hover { color: #fff; }
+  .links a:last-child { border-bottom: none; }
+  .footer {
+    text-align: center;
+    color: #555;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #222;
+    font-size: 13px;
+  }
+  .toc {
+    background: #181818;
+    border-radius: 10px;
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    border: 1px solid #2a2a2a;
+  }
+  .toc h3 {
+    color: #ffd166;
+    font-size: 16px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .toc ol { padding-left: 26px; }
+  .toc li { color: #ccc; margin: 4px 0; }
+  .toc li a { color: #ccc; text-decoration: none; }
+  .toc li a:hover { color: #ff5470; }
+  @media print {
+    body { background: #fff; color: #000; }
+    .step { background: #f5f5f5; border-left-color: #c0143a; }
+    .step h2, .step .num { background: transparent; color: #c0143a; }
+    .step .num { background: #c0143a; color: #fff; }
+    .step h2 .title-text { color: #000; }
+    .step .what, .step .say, .step .show, .step .cta { background: #fff; color: #000; }
+    .meta { background: #c0143a; }
+    .links { background: #f5f5f5; }
+    .links a { color: #c0143a; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>🎬 Roteiro Vídeo YouTube</h1>
+  <p class="subtitle">Geek CLAUDE - UGC — clone qualquer ad UGC em 15 minutos</p>
+
+  <div class="meta">
+    <span>⏱️ <strong>DURAÇÃO ALVO:</strong> 14-18 min</span>
+    <span>📺 <strong>FORMATO:</strong> Tela + face-cam canto</span>
+    <span>🎯 <strong>OBJETIVO:</strong> Vender Formação + RATEAKI</span>
+    <span>🔗 <strong>REPO:</strong> github.com/Geeknosnegocios/geekclaudeUGC</span>
+  </div>
+
+  <div class="toc">
+    <h3>Estrutura</h3>
+    <ol>
+      <li><a href="#p1">Hook + show resultado final (0:00 - 0:45)</a></li>
+      <li><a href="#p2">Apresentação + pra quem é (0:45 - 2:00)</a></li>
+      <li><a href="#p3">Stack + ferramentas (2:00 - 3:30)</a></li>
+      <li><a href="#p4">Setup completo demo (3:30 - 7:00)</a></li>
+      <li><a href="#p5">Primeiro ad — achar referência TikTok (7:00 - 9:00)</a></li>
+      <li><a href="#p6">Joga no agente + briefing (9:00 - 11:00)</a></li>
+      <li><a href="#p7">HeyGen + SuperGrok demo (11:00 - 13:00)</a></li>
+      <li><a href="#p8">Build pipeline + HyperFrames polish (13:00 - 15:00)</a></li>
+      <li><a href="#p9">Show before/after + catálogo (15:00 - 16:30)</a></li>
+      <li><a href="#p10">CTA final Formação + RATEAKI (16:30 - 18:00)</a></li>
+    </ol>
+  </div>
+
+  <!-- PASSO 1 -->
+  <div class="step" id="p1">
+    <h2><span class="num">1</span><span class="title-text">HOOK + RESULTADO FINAL</span></h2>
+    <div class="time">⏱️ 0:00 - 0:45 (45 segundos)</div>
+
+    <div class="show">Abre fullscreen o MP4 final <code>03_faceless_lifestyle/outputs/lifestyle_hf_v2.mp4</code>. Toca os primeiros 6-8 segundos do ad com som.</div>
+
+    <div class="say">"E se eu te falar que esse anúncio aqui foi feito do zero em 15 minutos? Sem editor, sem aparecer na câmera, sem gravar nada. E agora vou te mostrar exatamente o passo a passo pra você fazer igual, agora, com seu produto."</div>
+
+    <div class="what">
+      <strong>Pontos pra martelar nos primeiros 5 segundos:</strong>
+      <ul>
+        <li>"Zero edição"</li>
+        <li>"Você não aparece"</li>
+        <li>"15 minutos"</li>
+        <li>"100% automatizado com Claude"</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PASSO 2 -->
+  <div class="step" id="p2">
+    <h2><span class="num">2</span><span class="title-text">APRESENTAÇÃO + PRA QUEM É</span></h2>
+    <div class="time">⏱️ 0:45 - 2:00 (75 segundos)</div>
+
+    <div class="show">Face-cam fullscreen ou tela com README aberto rolando devagar na seção "Pra quem é".</div>
+
+    <div class="say">"Fala galera, é o Andrey do Geek nos Negócios. Eu construí uma ferramenta open-source pra clonar ads UGC vencedores. Mostro o que ela faz, depois te mostro como instalar de graça, e no final você vai ter um anúncio pronto pra subir no TikTok ou Reels."</div>
+
+    <div class="what">
+      <strong>Pra quem listar:</strong>
+      <ul>
+        <li>Produtor lowticket que quer escalar criativo</li>
+        <li>Afiliado que clona copy vencedora</li>
+        <li>Dropshipper testando 10 variações por dia</li>
+        <li>Ecom que quer 5 ângulos diferentes</li>
+        <li>Agência cobrando R$ 200-500 por UGC</li>
+      </ul>
+    </div>
+
+    <div class="cta">"Antes de continuar: pra quem quer aprender o sistema completo lowticket — nicho, copy, página, tráfego, primeira venda no mesmo dia — eu tenho a Formação Produtor Milionário. Link na descrição."<br><br>👉 <strong>https://produtor.geekacademy.site</strong></div>
+  </div>
+
+  <!-- PASSO 3 -->
+  <div class="step" id="p3">
+    <h2><span class="num">3</span><span class="title-text">STACK + FERRAMENTAS</span></h2>
+    <div class="time">⏱️ 2:00 - 3:30 (90 segundos)</div>
+
+    <div class="show">Abre README no GitHub na seção "Stack" (table). Aponta linha por linha.</div>
+
+    <div class="say">"A stack é simples. HeyGen pro avatar talking head, SuperGrok pra clips do produto, ElevenLabs pra voz, Jamendo pra música automática, Pexels pra b-roll, e o segredo do polish profissional: HyperFrames, que é open-source da HeyGen. Tudo orquestrado por Claude."</div>
+
+    <div class="what">
+      <strong>O que destacar:</strong>
+      <ul>
+        <li>HeyGen + SuperGrok = pagos, mas dá pra rateio</li>
+        <li>ElevenLabs / Jamendo / Pexels / Pixabay = free tier suficiente</li>
+        <li>HyperFrames = 85 blocks profissionais grátis (Apache 2.0)</li>
+        <li>Funciona em Claude Code, Codex CLI ou Gemini CLI</li>
+      </ul>
+    </div>
+
+    <div class="cta">"Não tem HeyGen ou SuperGrok pago? Existe o Rateio Ferramentas IA, onde você divide o custo com a galera. Link na descrição também."<br><br>👉 <strong>https://rateaki.geekacademy.site</strong></div>
+  </div>
+
+  <!-- PASSO 4 -->
+  <div class="step" id="p4">
+    <h2><span class="num">4</span><span class="title-text">SETUP COMPLETO — INSTALAÇÃO</span></h2>
+    <div class="time">⏱️ 3:30 - 7:00 (210 segundos)</div>
+
+    <div class="show">Terminal vazio. Demonstra os 8 passos do README "Instalação". Acelera com cuts entre passos.</div>
+
+    <div class="say">"Setup leva uns 15 minutos uma vez só. Vou acelerar aqui no vídeo mas é simples: clone o repo, instala Python, ffmpeg, Bun, depois clona o HyperFrames e roda bun install."</div>
+
+    <div class="what">
+      <strong>Comandos pra digitar (na ordem):</strong>
+<pre><code>git clone https://github.com/Geeknosnegocios/geekclaudeUGC.git
+cd geekclaudeUGC
+pip install -r requirements.txt
+mkdir -p vendor
+git clone --depth=1 https://github.com/heygen-com/hyperframes.git vendor/hyperframes
+cd vendor/hyperframes && bun install && bun run build
+cd ../..
+cp .env.example .env</code></pre>
+    </div>
+
+    <div class="show">Abre o `.env` no VSCode e mostra preenchendo cada chave. Mostra de onde pegar cada uma (Pexels, Pixabay, ElevenLabs, Jamendo).</div>
+
+    <div class="say">"Pra cada chave eu coloquei link direto pro signup no README. Tudo grátis, sem cartão. Cada uma leva uns 30 segundos pra criar."</div>
+
+    <div class="what">
+      <strong>5 chaves a preencher:</strong>
+      <ul>
+        <li><code>PEXELS_KEY</code> → pexels.com/api</li>
+        <li><code>PIXABAY_KEY</code> → pixabay.com/accounts/register</li>
+        <li><code>ELEVEN_KEY</code> → elevenlabs.io</li>
+        <li><code>ELEVEN_VOICE_ID</code> → já vem Jessica padrão</li>
+        <li><code>JAMENDO_CLIENT_ID</code> → devportal.jamendo.com</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PASSO 5 -->
+  <div class="step" id="p5">
+    <h2><span class="num">5</span><span class="title-text">ACHAR REFERÊNCIA TIKTOK</span></h2>
+    <div class="time">⏱️ 7:00 - 9:00 (120 segundos)</div>
+
+    <div class="show">Abre TikTok Creative Center → aplica filtros (Brasil, Beleza, 30 dias, CTR desc). Mostra busca "sérum".</div>
+
+    <div class="say">"Aqui você vai achar o ad vencedor. Esse é o TikTok Creative Center, é grátis, e tem todos os anúncios que rodaram nos últimos 30 dias por CTR. Filtra por região Brasil, indústria, idioma português, e ordena por CTR. Pega um que tá rodando há 30+ dias com mais de 1% CTR."</div>
+
+    <div class="what">
+      <strong>URL:</strong> <code>https://ads.tiktok.com/business/creativecenter/topads/pc/en</code>
+    </div>
+
+    <div class="show">Clica num ad bom → mostra como baixar via DevTools (F12 → Network → Media → click direito no .mp4 → Open in new tab → Save as).</div>
+
+    <div class="say">"Pra baixar, abre o DevTools com F12, vai na aba Network, filtra por Media, dá play no vídeo, aparece o arquivo MP4 ali, click direito, Open in new tab, e Save video as. Salva exatamente na pasta do template."</div>
+
+    <div class="what">
+      <strong>Salva em:</strong><br>
+      <code>geekclaudeUGC/01_talking_head/assets/reference.mp4</code>
+    </div>
+  </div>
+
+  <!-- PASSO 6 -->
+  <div class="step" id="p6">
+    <h2><span class="num">6</span><span class="title-text">JOGA NO AGENTE + BRIEFING</span></h2>
+    <div class="time">⏱️ 9:00 - 11:00 (120 segundos)</div>
+
+    <div class="show">Abre Claude Code no terminal dentro da pasta do repo. Cola o prompt e mostra o agente respondendo.</div>
+
+    <div class="say">"Agora a mágica. Abre o Claude Code aqui na pasta do projeto, e cola esse prompt:"</div>
+
+    <div class="what">
+<pre><code>Clona esse ad pra mim. É de skincare.
+Vou anunciar meu produto Lucrown Silky Skin Oil.
+Aqui está a foto do produto: [anexa imagem]
+Referência salva em: 01_talking_head/assets/reference.mp4</code></pre>
+    </div>
+
+    <div class="say">"O Claude vai transcrever o áudio do ad referência com Whisper local, mapear os beats — hook, problema, solução, CTA — e reescrever tudo adaptado pro seu produto em PT-BR. Aí ele te entrega: script pronto, briefing pra colar no HeyGen, prompts pro SuperGrok, e o comando exato pra rodar."</div>
+
+    <div class="show">Highlight cada seção da resposta do agente: script PT-BR, briefing HeyGen, prompts SuperGrok, asset checklist.</div>
+
+    <div class="cta">"Esse processo de leitura de ad vencedor + angulação pro seu produto é 70% do sucesso UGC. Eu ensino o método completo de validação na Formação."<br><br>👉 <strong>https://produtor.geekacademy.site</strong></div>
+  </div>
+
+  <!-- PASSO 7 -->
+  <div class="step" id="p7">
+    <h2><span class="num">7</span><span class="title-text">HEYGEN + SUPERGROK</span></h2>
+    <div class="time">⏱️ 11:00 - 13:00 (120 segundos)</div>
+
+    <div class="show">Tela split: HeyGen do lado, SuperGrok do outro. Mostra colando script + gerando.</div>
+
+    <div class="say">"O HeyGen gera o avatar talking head — você cola o script, escolhe avatar e voz, manda gerar. Em 2 minutos baixa o MP4 e salva na pasta indicada."</div>
+
+    <div class="what">
+      <strong>HeyGen passos:</strong>
+      <ul>
+        <li>app.heygen.com → Create Video → AI Avatar</li>
+        <li>Cole script PT-BR</li>
+        <li>Aspect 9:16 vertical, 720p+</li>
+        <li>Generate → Download MP4</li>
+        <li>Salva em <code>assets/heygen.mp4</code></li>
+      </ul>
+    </div>
+
+    <div class="say">"Pra clips de produto, abre o SuperGrok, cola cada prompt no Grok Imagine, espera gerar a imagem, e clica em Animate pra gerar vídeo de 6 segundos. Importante: marca aspect 9:16 explícito, senão sai quadrado."</div>
+
+    <div class="what">
+      <strong>SuperGrok passos:</strong>
+      <ul>
+        <li>grok.com → Imagine</li>
+        <li>Cola prompt → gera imagem</li>
+        <li>Clica <strong>Animate</strong> → vídeo 6s</li>
+        <li>Aspect <strong>9:16</strong> vertical (não esquece!)</li>
+        <li>Download → <code>assets/clips/clip_01.mp4</code></li>
+        <li>Repete pra 4 clips</li>
+      </ul>
+    </div>
+
+    <div class="cta">"Não tem HeyGen ou SuperGrok? Rateio Ferramentas IA, divide o custo com a galera. Link descrição."<br><br>👉 <strong>https://rateaki.geekacademy.site</strong></div>
+  </div>
+
+  <!-- PASSO 8 -->
+  <div class="step" id="p8">
+    <h2><span class="num">8</span><span class="title-text">BUILD + HYPERFRAMES POLISH</span></h2>
+    <div class="time">⏱️ 13:00 - 15:00 (120 segundos)</div>
+
+    <div class="show">Terminal — Claude executa <code>python 03_faceless_lifestyle/build.py --tts "..." --srt</code>. Mostra output rolando: ElevenLabs gerando voz, Whisper transcrevendo, Jamendo baixando música, ffmpeg concatenando.</div>
+
+    <div class="say">"Aqui o Claude executa o build. Em 10 segundos ele gera a voz no ElevenLabs, transcreve com Whisper pra legenda, baixa música do Jamendo automaticamente, normaliza os clips, mixa tudo. Sai o MP4 base."</div>
+
+    <div class="show">Abre o MP4 base. Mostra rapidinho. Aí volta no terminal pra fazer o polish HyperFrames.</div>
+
+    <div class="say">"Esse aqui é o base. Funciona mas é básico. Agora vamos no polish que é a sacada do projeto: o HyperFrames."</div>
+
+    <div class="what">
+<pre><code>bin/hf init compositions/meu_ad --no-install
+cp 03_faceless_lifestyle/assets/clips/*.mp4 compositions/meu_ad/
+cp 03_faceless_lifestyle/assets/voiceover.mp3 compositions/meu_ad/
+cp 03_faceless_lifestyle/assets/music.mp3 compositions/meu_ad/
+
+bin/hf add caption-highlight whip-pan grain-overlay vignette shimmer-sweep tiktok-follow
+
+bin/hf render -o ../../03_faceless_lifestyle/outputs/meu_ad_hf.mp4</code></pre>
+    </div>
+
+    <div class="say">"O HyperFrames pega o MP4 base, adiciona captions kinéticos estilo TikTok com aquela tarja vermelha, transições com flash branco entre cenas, lower-third com a marca, end CTA card animado, granulado de filme, vignette cinemático, tudo programaticamente. Renderiza tudo em 30 segundos no seu PC."</div>
+  </div>
+
+  <!-- PASSO 9 -->
+  <div class="step" id="p9">
+    <h2><span class="num">9</span><span class="title-text">BEFORE / AFTER + CATÁLOGO</span></h2>
+    <div class="time">⏱️ 15:00 - 16:30 (90 segundos)</div>
+
+    <div class="show">Tela split: MP4 base (sem polish) à esquerda, MP4 HyperFrames v2 à direita. Toca os dois lado a lado.</div>
+
+    <div class="say">"Olha o antes e depois. À esquerda só com ffmpeg, à direita com HyperFrames. Mesma quantidade de cliques. Diferença gigante."</div>
+
+    <div class="show">Roda <code>bin/hf catalog list</code> no terminal. Mostra os 85 blocks rolando.</div>
+
+    <div class="say">"E o melhor: tem 85 blocks no catálogo do HyperFrames. Captions em 15 estilos diferentes, 12 transições shader, vignette, grain, lower-thirds, overlays sociais como TikTok follow card, instagram follow, até VFX 3D com iPhone real. Tudo livre, instala com um comando."</div>
+
+    <div class="what">
+      <strong>Exemplos pra mencionar:</strong>
+      <ul>
+        <li><code>caption-particle-burst</code> — palavras explodem em partículas</li>
+        <li><code>caption-glitch-rgb</code> — RGB chromatic aberration</li>
+        <li><code>cinematic-zoom</code> — zoom dramático shader</li>
+        <li><code>vfx-iphone-device</code> — iPhone 15 Pro 3D com app dentro</li>
+        <li><code>apple-money-count</code> — contador estilo Apple</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PASSO 10 -->
+  <div class="step" id="p10">
+    <h2><span class="num">10</span><span class="title-text">CTA FINAL — FORMAÇÃO + RATEAKI</span></h2>
+    <div class="time">⏱️ 16:30 - 18:00 (90 segundos)</div>
+
+    <div class="show">Face-cam fullscreen. Card overlay com 3 links principais.</div>
+
+    <div class="say">"Recapitulando: você acha um ad vencedor no TikTok, joga no Claude, ele escreve o script, você gera no HeyGen + SuperGrok, e o pipeline finaliza com polish profissional. Custo recorrente: zero, se você usar o rateio."</div>
+
+    <div class="what">
+      <strong>3 ações pro espectador:</strong>
+      <ol>
+        <li><strong>Clona o repo</strong> e testa hoje:<br><code>github.com/Geeknosnegocios/geekclaudeUGC</code></li>
+        <li><strong>Inscreve</strong> no canal pra mais conteúdo Claude</li>
+        <li><strong>Deixa um comentário</strong> com o nicho que você tá testando</li>
+      </ol>
+    </div>
+
+    <div class="cta">"E se você quer aprender o sistema completo lowticket — nicho, copy, página, tráfego, primeira venda no mesmo dia — entra na Formação Produtor Milionário. Tudo orquestrado por Claude, do zero ao dinheiro em 1 hora."<br><br>👉 <strong>https://produtor.geekacademy.site</strong></div>
+
+    <div class="cta">"E pra ter acesso compartilhado a todas as ferramentas pagas — HeyGen, SuperGrok, ElevenLabs Starter, e outras — entra no Rateio Ferramentas IA. Você divide o custo com a galera e usa tudo."<br><br>👉 <strong>https://rateaki.geekacademy.site</strong></div>
+
+    <div class="say">"Valeu, galera. Até o próximo vídeo."</div>
+  </div>
+
+  <!-- LINKS REUTILIZÁVEIS -->
+  <div class="links">
+    <h2>🔗 Links pra colar na descrição YouTube</h2>
+    <a href="https://github.com/Geeknosnegocios/geekclaudeUGC">📦 Repositório: github.com/Geeknosnegocios/geekclaudeUGC</a>
+    <a href="https://produtor.geekacademy.site">🎓 Formação Produtor Milionário: produtor.geekacademy.site</a>
+    <a href="https://rateaki.geekacademy.site">🛠️ Rateio Ferramentas IA: rateaki.geekacademy.site</a>
+    <a href="https://ads.tiktok.com/business/creativecenter/topads/pc/en">🔍 TikTok Creative Center</a>
+    <a href="https://app.heygen.com/">🤖 HeyGen: app.heygen.com</a>
+    <a href="https://grok.com/">🍌 SuperGrok: grok.com</a>
+    <a href="https://elevenlabs.io">🎤 ElevenLabs: elevenlabs.io</a>
+    <a href="https://devportal.jamendo.com">🎵 Jamendo API: devportal.jamendo.com</a>
+    <a href="https://github.com/heygen-com/hyperframes">⚡ HyperFrames OSS: github.com/heygen-com/hyperframes</a>
+  </div>
+
+  <!-- CHECKLIST PRÉ-GRAVAÇÃO -->
+  <div class="step" style="border-left-color: #ffd166;">
+    <h2><span class="num" style="background: #ffd166; color: #1a1a1a;">✓</span><span class="title-text">CHECKLIST PRÉ-GRAVAÇÃO</span></h2>
+    <div class="time">⏱️ Antes de apertar REC</div>
+
+    <div class="what">
+      <strong>Setup técnico:</strong>
+      <ul>
+        <li>☐ Terminal aberto na pasta <code>geekclaudeUGC</code></li>
+        <li>☐ VSCode aberto com README + .env (sem mostrar valores reais!)</li>
+        <li>☐ Browser com tabs prontas: TikTok Creative Center, HeyGen, SuperGrok, GitHub repo</li>
+        <li>☐ MP4 final <code>lifestyle_hf_v2.mp4</code> aberto e pronto pra play</li>
+        <li>☐ Microfone testado, sem eco</li>
+        <li>☐ Face-cam framing OK</li>
+        <li>☐ OBS / Camtasia / ScreenStudio ativo, formato 1080p</li>
+      </ul>
+    </div>
+
+    <div class="what">
+      <strong>Conteúdo:</strong>
+      <ul>
+        <li>☐ Este roteiro impresso ou em segundo monitor</li>
+        <li>☐ Imagem do produto Lucrown pronta pra anexar</li>
+        <li>☐ Script PT-BR copy-paste pronto</li>
+      </ul>
+    </div>
+
+    <div class="what">
+      <strong>Pós-gravação:</strong>
+      <ul>
+        <li>☐ Cortar pausas longas</li>
+        <li>☐ Adicionar zooms nos pontos importantes (filtros TikTok, briefing do Claude, before/after)</li>
+        <li>☐ Thumbnail com "ZERO EDIÇÃO" em vermelho + screenshot do MP4 final</li>
+        <li>☐ Título: "Como CLONAR Ads UGC Vencedores em 15min (com Claude + HyperFrames)"</li>
+        <li>☐ Descrição com TODOS os links acima</li>
+        <li>☐ Tags: claude, claude code, ugc, tiktok ads, dropshipping, lowticket, hyperframes, ai video</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    Roteiro gerado por Claude Opus 4.7 · Geek nos Negócios · Pipeline Geek CLAUDE - UGC
+  </div>
+
+</div>
+
+</body>
+</html>
