@@ -15,6 +15,7 @@ from lib.version import next_version, ensure_dir
 from lib.editor import normalize, loudnorm, overlay_audio_on_video
 from lib.audio import find_music
 from lib.hg import require_heygen
+from lib.music import has_key as has_jamendo, fetch_music
 
 HERE = os.path.dirname(__file__)
 ASSETS = os.path.join(HERE, "assets")
@@ -25,6 +26,13 @@ TMP = ensure_dir(os.path.join(OUT, ".tmp"))
 def main() -> None:
     heygen = require_heygen(ASSETS)
     music = find_music(ASSETS)
+    if not music and has_jamendo():
+        try:
+            print("  no music.mp3, fetching from Jamendo (ambient)")
+            music = fetch_music("ambient", os.path.join(ASSETS, "music.mp3"))
+        except Exception as e:
+            print(f"  [music] auto-fetch failed: {e}")
+            music = None
 
     v = next_version(OUT, "talking_head")
     final = os.path.join(OUT, f"talking_head_v{v}.mp4")

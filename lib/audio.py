@@ -21,17 +21,30 @@ def _voice() -> str:
 
 
 def tts(text: str, dst_mp3: str, voice_id: Optional[str] = None, model: str = "eleven_multilingual_v2") -> str:
-    """Synthesize text -> mp3. Returns dst_mp3 path."""
+    """Synthesize text -> mp3. Returns dst_mp3 path.
+
+    Voice settings tuned for emotional UGC delivery:
+    - stability=0.35  (lower = more emotional range, less monotone)
+    - similarity_boost=0.85 (preserves voice identity)
+    - style=0.55 (amplifies the voice's natural style)
+    - use_speaker_boost=True (clarity)
+    """
     vid = voice_id or _voice()
     url = f"{ELEVEN_BASE}/v1/text-to-speech/{vid}"
     headers = {"xi-api-key": _key(), "Accept": "audio/mpeg", "Content-Type": "application/json"}
     payload = {
         "text": text,
         "model_id": model,
-        "voice_settings": {"stability": 0.5, "similarity_boost": 0.75, "style": 0.0, "use_speaker_boost": True}
+        "voice_settings": {
+            "stability": 0.35,
+            "similarity_boost": 0.85,
+            "style": 0.55,
+            "use_speaker_boost": True,
+        },
     }
     r = requests.post(url, json=payload, headers=headers, timeout=120)
-    r.raise_for_status()
+    if r.status_code != 200:
+        raise RuntimeError(f"ElevenLabs TTS failed {r.status_code}: {r.text[:300]}")
     with open(dst_mp3, "wb") as f:
         for chunk in r.iter_content(chunk_size=8192):
             f.write(chunk)

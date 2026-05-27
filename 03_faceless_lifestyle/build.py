@@ -25,6 +25,7 @@ from lib.stock import fetch_broll
 from lib.audio import find_voiceover, find_music, tts
 from lib.transcribe import transcribe, write_srt
 from lib.grok import find_clips
+from lib.music import has_key as has_jamendo, fetch_music
 
 HERE = os.path.dirname(__file__)
 ASSETS = os.path.join(HERE, "assets")
@@ -39,6 +40,8 @@ def parse_args():
     p.add_argument("--clips", type=int, default=6, help="(Fallback) Pexels clip count")
     p.add_argument("--tts", help="If set, synthesize voiceover from this text via ElevenLabs")
     p.add_argument("--srt", action="store_true", help="Also write a .srt subtitle file (no burn)")
+    p.add_argument("--music-tags", default="ambient", help="Jamendo tags for auto-fetched music bed (single tag works best: ambient, chill, lofi, relax, lounge)")
+    p.add_argument("--no-music", action="store_true", help="Skip auto-music fetch")
     return p.parse_args()
 
 
@@ -121,6 +124,13 @@ def main() -> None:
 
     print("[5/5] mux voiceover + music")
     music = find_music(ASSETS)
+    if not music and not args.no_music and has_jamendo():
+        try:
+            print(f"     no manual music.mp3, fetching from Jamendo (tags={args.music_tags!r})")
+            music = fetch_music(args.music_tags, os.path.join(ASSETS, "music.mp3"))
+        except Exception as e:
+            print(f"     [music] auto-fetch failed: {e}")
+            music = None
     if music:
         cmd = [
             FFMPEG, "-y", "-i", video_concat, "-i", vo, "-i", music,
