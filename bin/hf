@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# HyperFrames CLI wrapper (Mac/Linux)
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec node "$DIR/../vendor/hyperframes/packages/cli/dist/cli.js" "$@"

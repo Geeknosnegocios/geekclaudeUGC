@@ -5,10 +5,12 @@ You are operating an UGC ad cloning workflow. You help users clone winning ads f
 **Stack:**
 - **HeyGen (paid UI, manual):** generates the talking-head avatar from a script you write
 - **SuperGrok / Grok Imagine (paid UI, manual):** generates image + animated video clips (image AND animation in one)
-- **Pexels API (free):** b-roll fallback when no SuperGrok clips are provided
-- **ElevenLabs API (free 10k chars/mo):** optional voiceover TTS
+- **HyperFrames (Apache 2.0, local):** HTML→MP4 renderer with GSAP timelines, 85+ catalog blocks (captions, transitions, shaders, overlays, vignette, grain). Drives the polished final composition.
+- **Jamendo API (free):** royalty-free music auto-fetch (35k tracks)
+- **Pexels + Pixabay API (free):** b-roll fallback when no SuperGrok clips are provided
+- **ElevenLabs API (free 10k chars/mo):** voiceover TTS (Jessica default, Larissa PT-BR requires paid)
 - **faster-whisper (local, free):** transcription + word timestamps for `.srt`
-- **ffmpeg (local, free):** all final assembly
+- **ffmpeg (local, free):** intermediate assembly inside the Python build pipeline
 
 You DO NOT call any video generation API. Your job is to:
 1. Analyze the reference
@@ -117,7 +119,45 @@ python 04_app_promo/build.py --segment 4.0
 python 05_extend_and_stitch/build.py
 ```
 
-### Step 6 — Report the result
+### Step 6 — (Optional) Polish via HyperFrames
+
+After `build.py` produces the rough MP4, optionally drive it through HyperFrames for kinetic captions, shader transitions, lower-thirds, end-CTA cards, grain, vignette, shimmer, and 80+ other premium effects.
+
+Workflow:
+
+1. **Scaffold a composition** (one-time per ad):
+   ```bash
+   bin/hf init compositions/<ad_slug> --no-install
+   ```
+
+2. **Copy the build inputs (clips + voiceover + music) into the composition folder:**
+   ```bash
+   cp 03_faceless_lifestyle/assets/clips/*.mp4 compositions/<ad_slug>/
+   cp 03_faceless_lifestyle/assets/voiceover.mp3 compositions/<ad_slug>/
+   cp 03_faceless_lifestyle/assets/music.mp3 compositions/<ad_slug>/
+   ```
+
+3. **Browse the catalog and add the blocks you need:**
+   ```bash
+   bin/hf catalog list
+   bin/hf add caption-highlight whip-pan grain-overlay vignette shimmer-sweep tiktok-follow
+   ```
+
+4. **Edit `index.html`** following the rules in `compositions/<ad_slug>/CLAUDE.md`:
+   - every timed element needs `data-start`, `data-duration`, `data-track-index`, and `class="clip"`
+   - timelines must be paused and registered on `window.__timelines["<id>"]`
+   - videos must be `muted` with separate `<audio>` for the audio track
+   - only deterministic logic — no `Date.now()`, `Math.random()`, or network fetches
+
+5. **Lint + render:**
+   ```bash
+   bin/hf lint
+   bin/hf render -o ../../03_faceless_lifestyle/outputs/<ad_slug>_hf.mp4
+   ```
+
+A working reference composition lives at `compositions/lucrown_ad/` — copy it as the starting point for new ads. The repo ships `compositions/lucrown_ad/CLAUDE.md` with HyperFrames-specific authoring rules.
+
+### Step 7 — Report the result
 
 Filename, size, duration. Tell the user where the file is.
 

@@ -35,10 +35,11 @@ Acha um ad bombando no TikTok. Cola aqui. O agente lê, escreve o roteiro, te d�
 | Avatar talking head | **HeyGen** | UI manual | plano pago* |
 | Imagem + animação vídeo | **SuperGrok / Grok Imagine** | UI manual | plano pago* |
 | Voiceover (opcional) | **ElevenLabs** | API | grátis 10k chars/mês |
-| B-roll fallback | **Pexels** | API | grátis ∞ |
-| Música | **Pixabay / YouTube Audio Library** | manual | grátis |
+| B-roll fallback | **Pexels** / **Pixabay** | API | grátis ∞ |
+| Música automática | **Jamendo** | API | grátis 35k tracks |
+| **Polish final** (kinetic captions, transitions shader, grain, vignette, end CTA) | **HyperFrames** (HeyGen OSS) | local CLI + Bun + Chromium | grátis ∞ |
 | Transcrição | **faster-whisper** | local CPU | grátis |
-| Montagem final | **ffmpeg** | local | grátis |
+| Montagem intermediária | **ffmpeg** | local | grátis |
 | Agente | **Claude Code** / **Codex** / **Gemini** | local | seu plano |
 
 \* Não tem HeyGen / SuperGrok? **Rateio Ferramentas IA** dá acesso compartilhado:
@@ -266,11 +267,52 @@ Saída esperada (~10 segundos):
 DONE -> 01_talking_head/outputs/talking_head_v1.mp4 (3200 KB)
 ```
 
-### Passo 7 — Sobe pro TikTok / Reels
+### Passo 7 — (Opcional) Polish com HyperFrames
 
-Pega o `outputs/talking_head_v1.mp4`. Sobe direto no TikTok / Reels. **Pronto.**
+Quer kinetic captions, shader transitions, grain, vignette, lower-third e end CTA card? Roda mais uma etapa de polish via **HyperFrames** (HeyGen open-source, 85 blocks no catálogo).
 
-> Rodou mais uma vez? Vira `talking_head_v2.mp4`. Auto-versionado. Nada sobrescrito.
+**Setup uma vez:**
+
+```bash
+# Instala Bun (runtime do HyperFrames)
+powershell -c "irm bun.sh/install.ps1 | iex"
+
+# Clona repo HyperFrames + instala deps
+mkdir -p vendor
+git clone --depth=1 https://github.com/heygen-com/hyperframes.git vendor/hyperframes
+cd vendor/hyperframes && bun install && bun run build
+cd ../..
+```
+
+**Por ad:**
+
+```bash
+# 1. Scaffold uma composition
+bin/hf init compositions/meu_ad --no-install
+
+# 2. Copia assets (clips, voiceover, music) pra composition folder
+cp 03_faceless_lifestyle/assets/clips/*.mp4 compositions/meu_ad/
+cp 03_faceless_lifestyle/assets/voiceover.mp3 compositions/meu_ad/
+cp 03_faceless_lifestyle/assets/music.mp3 compositions/meu_ad/
+
+# 3. Browse + add blocks do catálogo (85+ disponíveis)
+bin/hf catalog list
+bin/hf add caption-highlight whip-pan grain-overlay vignette shimmer-sweep tiktok-follow
+
+# 4. Edita compositions/meu_ad/index.html (peça pro Claude editar)
+
+# 5. Lint + render
+bin/hf lint
+bin/hf render -o 03_faceless_lifestyle/outputs/meu_ad_hf.mp4
+```
+
+**Composition de referência pronta:** `compositions/lucrown_ad/` — copia e adapta. Inclui kinetic captions TikTok red, white flash transitions, lower-third LUCROWN, end CTA "LINK NA SACOLINHA" + shimmer pill, grain overlay, vignette, progress bar.
+
+### Passo 8 — Sobe pro TikTok / Reels
+
+Pega o MP4 final em `outputs/`. Sobe direto no TikTok / Reels. **Pronto.**
+
+> Rodou mais uma vez? Vira `_v2.mp4`. Auto-versionado. Nada sobrescrito.
 
 ---
 

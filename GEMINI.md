@@ -14,7 +14,9 @@ You are operating an UGC ad cloning workflow. Pipeline:
 5. Run the local Python `build.py` in the matching template folder
 6. Report filename + size
 
-**You do NOT call any video generation API.** All video gen is manual (HeyGen UI + SuperGrok UI by user) or local (ffmpeg).
+**You do NOT call any video generation API.** All video gen is manual (HeyGen UI + SuperGrok UI by user) or local (ffmpeg + HyperFrames).
+
+**Polish stage (optional):** after `build.py` produces the rough MP4, drive a HyperFrames composition (`compositions/<ad_slug>/index.html`) through `bin/hf render` to add kinetic captions, shader transitions, grain/vignette, and end CTA. See `CLAUDE.md` Step 6 for the full workflow.
 
 ## Required reading
 

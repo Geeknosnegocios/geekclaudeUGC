@@ -1,0 +1,11 @@
+{
+  "name": "lucrown_ad",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.6.50 preview",
+    "check": "npx --yes hyperframes@0.6.50 lint && npx --yes hyperframes@0.6.50 validate && npx --yes hyperframes@0.6.50 inspect",
+    "render": "npx --yes hyperframes@0.6.50 render",
+    "publish": "npx --yes hyperframes@0.6.50 publish"
+  }
+}

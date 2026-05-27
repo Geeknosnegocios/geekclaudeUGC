@@ -49,3 +49,8 @@ desktop.ini
 .idea/
 *.swp
 memory/
+
+# vendored libs (cloned at install-time per user docs)
+vendor/
+node_modules/
+package-lock.json
