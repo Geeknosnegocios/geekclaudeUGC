@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Geek CLAUDE - UGC // Initialize</title>
+<title>Geek CLAUDE - UGC // Init Sequence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --green:        #00FF41;
@@ -15,448 +15,484 @@
     --green-deep:   #003B00;
     --green-soft:   rgba(0,255,65,0.12);
     --green-glow:   rgba(0,255,65,0.4);
-    --black:        #000000;
-    --bg:           #0a0e0a;
-    --bg-2:         #050805;
+    --bg:           #050805;
     --surface:      #0d150d;
     --surface-2:    #111c11;
     --surface-3:    #1a2b1a;
     --border:       #1a3a1a;
     --border-strong:#2d5a2d;
-    --text:         #c8ffc8;
-    --muted:        #6dbb6d;
-    --dim:          #3a7a3a;
-    --danger:       #ff003c;
+    --text:         #d8ffd8;
+    --muted:        #88c888;
+    --dim:          #5a8a5a;
     --amber:        #ffb000;
+    --locked:       #2a3a2a;
 
-    --font-mono:    'JetBrains Mono', 'Share Tech Mono', monospace;
-    --font-display: 'VT323', 'Share Tech Mono', monospace;
-    --font-term:    'Share Tech Mono', 'Courier New', monospace;
+    --font-display: 'Orbitron', system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+    --font-body:    'Inter', system-ui, sans-serif;
   }
 
   *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
   html { scroll-behavior:smooth; }
   body {
-    font-family:var(--font-mono);
+    font-family:var(--font-body);
     color:var(--text);
     background:var(--bg);
-    line-height:1.55;
+    line-height:1.6;
     overflow-x:hidden;
     min-height:100vh;
     position:relative;
+    -webkit-font-smoothing:antialiased;
   }
 
-  /* === MATRIX RAIN CANVAS (background) === */
   #matrix-rain {
-    position:fixed; top:0; left:0;
-    width:100vw; height:100vh;
-    z-index:0; opacity:0.18;
+    position:fixed; inset:0;
+    z-index:0; opacity:0.10;
     pointer-events:none;
   }
 
-  /* === SCANLINE OVERLAY === */
   body::before {
-    content:'';
-    position:fixed; top:0; left:0;
-    width:100%; height:100%;
-    background:repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 2px,
-      rgba(0,255,65,0.03) 2px,
-      rgba(0,255,65,0.03) 3px
-    );
+    content:''; position:fixed; inset:0;
+    background:repeating-linear-gradient(to bottom,
+      transparent 0px, transparent 3px,
+      rgba(0,255,65,0.02) 3px, rgba(0,255,65,0.02) 4px);
     pointer-events:none; z-index:2;
   }
-
-  /* === CRT VIGNETTE === */
   body::after {
-    content:'';
-    position:fixed; top:0; left:0;
-    width:100%; height:100%;
-    background:radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+    content:''; position:fixed; inset:0;
+    background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
     pointer-events:none; z-index:1;
   }
 
   .wrap {
-    max-width:1100px;
-    margin:0 auto;
-    padding:0 32px;
-    position:relative;
-    z-index:5;
+    max-width:1100px; margin:0 auto;
+    padding:0 32px; position:relative; z-index:5;
   }
 
-  /* === TERMINAL HEADER === */
+  /* === XP BAR + TERMINAL === */
   .term-bar {
-    background:rgba(0,0,0,0.85);
+    background:rgba(5,8,5,0.92);
     border-bottom:1px solid var(--green-dim);
-    backdrop-filter:blur(8px);
+    backdrop-filter:blur(10px);
     position:sticky; top:0; z-index:50;
-    box-shadow:0 0 20px rgba(0,255,65,0.15);
+    box-shadow:0 4px 30px rgba(0,255,65,0.15);
   }
-  .term-bar .wrap {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px 32px;
-    font-family:var(--font-term);
-    font-size:13px;
-    color:var(--green);
+  .term-bar .row1 {
+    display:flex; justify-content:space-between;
+    align-items:center; padding:12px 32px;
+    border-bottom:1px solid var(--border);
   }
-  .term-bar .dots { display:flex; gap:6px; }
-  .term-bar .dots span {
-    width:10px; height:10px; border-radius:50%;
-    background:var(--green-deep);
-    border:1px solid var(--green-dim);
+  .term-brand {
+    display:flex; align-items:center; gap:12px;
+    font-family:var(--font-mono); font-size:13px;
+    color:var(--green); font-weight:700;
   }
-  .term-bar .dots span.live {
-    background:var(--green);
-    box-shadow:0 0 8px var(--green-glow);
-    animation:pulse 1.5s ease-in-out infinite;
+  .term-brand .logo-box {
+    width:32px; height:32px;
+    background:var(--green-soft);
+    border:1px solid var(--green);
+    border-radius:6px;
+    display:grid; place-items:center;
+    box-shadow:0 0 12px var(--green-glow);
+    color:var(--green-bright); font-weight:900;
+    font-family:var(--font-display); font-size:13px;
   }
-  @keyframes pulse {
-    0%, 100% { opacity:1; }
-    50% { opacity:0.4; }
-  }
-  .term-bar .pwd {
-    font-family:var(--font-term);
-    color:var(--muted);
+  .term-meta {
+    font-family:var(--font-mono); color:var(--muted);
     font-size:12px;
   }
-  .term-bar .pwd .blink {
+  .term-meta .live {
     color:var(--green);
     animation:blink 1s steps(2) infinite;
   }
-  @keyframes blink { 50% { opacity:0; } }
+  @keyframes blink { 50% { opacity:0.3; } }
+
+  .xp-row {
+    padding:10px 32px;
+    display:flex; align-items:center; gap:16px;
+    background:rgba(0,0,0,0.4);
+  }
+  .xp-label {
+    font-family:var(--font-display); font-weight:700;
+    color:var(--green-bright); font-size:13px;
+    letter-spacing:0.15em; flex-shrink:0;
+  }
+  .xp-bar {
+    flex:1; height:10px;
+    background:var(--surface);
+    border:1px solid var(--green-dim);
+    border-radius:3px;
+    overflow:hidden;
+    position:relative;
+  }
+  .xp-fill {
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--green-dim), var(--green-bright));
+    box-shadow:0 0 12px var(--green-glow);
+    transition:width 0.6s cubic-bezier(0.4,0,0.2,1);
+    position:relative;
+  }
+  .xp-fill::after {
+    content:''; position:absolute; right:0; top:0; bottom:0;
+    width:4px; background:#fff;
+    box-shadow:0 0 12px #fff;
+    opacity:0.8;
+  }
+  .xp-stats {
+    font-family:var(--font-mono);
+    color:var(--text); font-size:13px;
+    flex-shrink:0; min-width:120px; text-align:right;
+  }
+  .xp-stats .xp-num {
+    color:var(--green-bright);
+    font-weight:700;
+  }
 
   /* === HERO === */
   .hero {
-    padding:100px 0 80px;
-    position:relative;
+    padding:80px 0 60px;
   }
-  .hero .console-line {
-    font-family:var(--font-term);
-    color:var(--green-bright);
-    font-size:14px;
-    margin-bottom:24px;
-    text-shadow:0 0 8px var(--green-glow);
+  .hero .preline {
+    font-family:var(--font-mono); font-size:13px;
+    color:var(--green-bright); letter-spacing:0.18em;
+    text-transform:uppercase; margin-bottom:20px;
+    display:flex; align-items:center; gap:12px;
   }
-  .hero .console-line::before {
-    content:'> '; color:var(--green);
+  .hero .preline::before {
+    content:''; width:32px; height:1px; background:var(--green-bright);
+    box-shadow:0 0 6px var(--green-bright);
   }
   .hero h1 {
     font-family:var(--font-display);
-    font-weight:400;
-    font-size:clamp(56px, 10vw, 120px);
-    line-height:0.95;
-    letter-spacing:0.02em;
+    font-weight:900;
+    font-size:clamp(48px, 8vw, 88px);
+    line-height:1; letter-spacing:0.02em;
     margin-bottom:24px;
     color:var(--green);
-    text-shadow:
-      0 0 10px var(--green),
-      0 0 20px var(--green-glow),
-      0 0 40px rgba(0,255,65,0.3);
-    position:relative;
+    text-shadow:0 0 12px var(--green-glow), 0 0 28px rgba(0,255,65,0.4);
   }
-  .hero h1 .accent {
-    color:var(--green-bright);
-    text-shadow:
-      0 0 10px var(--green-bright),
-      0 0 30px var(--green-bright);
+  .hero h1 .grad {
+    background:linear-gradient(135deg, #39FF14 0%, #00FF41 50%, #008F11 100%);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
   }
   .hero h1::after {
-    content:'_';
-    color:var(--green-bright);
+    content:'▮'; color:var(--green-bright);
     animation:blink 1s steps(2) infinite;
-    margin-left:8px;
+    margin-left:8px; font-size:0.7em;
   }
   .hero .tagline {
-    font-family:var(--font-term);
-    font-size:20px;
-    color:var(--text);
-    max-width:720px;
-    margin-bottom:36px;
-    line-height:1.5;
+    font-family:var(--font-body); font-size:19px;
+    color:var(--text); max-width:720px;
+    margin-bottom:36px; line-height:1.6;
   }
   .hero .stats {
-    display:flex;
-    gap:32px;
-    flex-wrap:wrap;
+    display:flex; gap:36px; flex-wrap:wrap;
     padding-top:32px;
     border-top:1px dashed var(--border-strong);
   }
-  .hero .stat {
-    font-family:var(--font-term);
-  }
   .hero .stat .num {
     font-family:var(--font-display);
-    font-size:48px;
-    color:var(--green);
-    text-shadow:0 0 12px var(--green-glow);
-    line-height:1;
+    font-weight:800; font-size:38px;
+    color:var(--green); line-height:1;
+    text-shadow:0 0 10px var(--green-glow);
   }
   .hero .stat .lbl {
-    font-size:11px;
-    color:var(--dim);
-    letter-spacing:0.2em;
-    text-transform:uppercase;
-    margin-top:4px;
+    font-family:var(--font-mono); font-size:11px;
+    color:var(--dim); letter-spacing:0.2em;
+    text-transform:uppercase; margin-top:6px;
   }
 
-  /* === ASCII DIVIDER === */
+  /* === ASCII DIV === */
   .ascii-div {
-    font-family:var(--font-term);
-    color:var(--green-dim);
-    text-align:center;
-    margin:64px 0 32px;
-    font-size:14px;
-    letter-spacing:0.2em;
-    user-select:none;
+    font-family:var(--font-mono);
+    color:var(--green-dim); text-align:center;
+    margin:64px 0 32px; font-size:12px;
+    letter-spacing:0.25em; user-select:none;
   }
-  .ascii-div::before { content:'═══════ '; }
-  .ascii-div::after  { content:' ═══════'; }
+  .ascii-div .label {
+    font-family:var(--font-display); font-weight:700;
+    color:var(--green-bright); padding:0 12px;
+    text-shadow:0 0 6px var(--green-glow);
+  }
 
-  /* === ROADMAP TRAIL === */
-  .roadmap {
-    position:relative;
-    padding:32px 0 64px;
-  }
+  /* === ROADMAP === */
+  .roadmap { position:relative; padding:16px 0 64px; }
   .roadmap::before {
-    content:'';
-    position:absolute;
-    left:32px;
-    top:0; bottom:0;
+    content:''; position:absolute;
+    left:36px; top:0; bottom:0;
     width:2px;
     background:linear-gradient(to bottom,
-      transparent 0%,
-      var(--green-dim) 5%,
-      var(--green) 50%,
-      var(--green-dim) 95%,
+      transparent 0%, var(--green-dim) 4%,
+      var(--green) 50%, var(--green-dim) 96%,
       transparent 100%);
-    box-shadow:0 0 8px var(--green-glow);
+    box-shadow:0 0 10px var(--green-glow);
   }
 
-  /* === MISSION (phase block) === */
-  .mission {
-    margin-bottom:48px;
-    position:relative;
-    padding-left:80px;
-  }
-  .mission-header {
-    margin-bottom:24px;
-    position:relative;
-  }
+  .mission { margin-bottom:48px; position:relative; padding-left:96px; }
+  .mission-header { margin-bottom:24px; position:relative; }
   .mission-marker {
-    position:absolute;
-    left:-72px; top:0;
+    position:absolute; left:-88px; top:0;
     width:80px; height:80px;
-    background:var(--bg);
-    border:2px solid var(--green);
-    border-radius:50%;
+    background:radial-gradient(circle, var(--surface-2) 0%, var(--bg) 100%);
+    border:2px solid var(--green); border-radius:50%;
     display:grid; place-items:center;
-    box-shadow:0 0 20px var(--green-glow), inset 0 0 12px rgba(0,255,65,0.1);
+    box-shadow:0 0 24px var(--green-glow),
+               inset 0 0 12px rgba(0,255,65,0.15);
     z-index:3;
   }
-  .mission-marker svg { width:36px; height:36px; }
+  .mission-marker svg { width:38px; height:38px; }
   .mission-eyebrow {
-    font-family:var(--font-term);
-    color:var(--green-bright);
-    font-size:12px;
-    letter-spacing:0.3em;
-    text-transform:uppercase;
-    margin-bottom:6px;
+    font-family:var(--font-mono); color:var(--green-bright);
+    font-size:11px; letter-spacing:0.3em;
+    text-transform:uppercase; margin-bottom:8px;
+    font-weight:700;
   }
   .mission h2 {
-    font-family:var(--font-display);
-    font-weight:400;
-    font-size:44px;
-    line-height:1;
-    color:var(--green);
-    text-shadow:0 0 12px var(--green-glow);
-    letter-spacing:0.02em;
-    margin-bottom:8px;
+    font-family:var(--font-display); font-weight:900;
+    font-size:36px; line-height:1; color:var(--green);
+    text-shadow:0 0 10px var(--green-glow);
+    letter-spacing:0.03em; margin-bottom:8px;
   }
   .mission-desc {
-    font-family:var(--font-mono);
-    font-size:14px;
-    color:var(--muted);
-    max-width:600px;
-    margin-bottom:24px;
+    font-family:var(--font-body); font-size:15px;
+    color:var(--muted); max-width:640px;
+    margin-bottom:0;
   }
 
-  /* === STEP CARDS === */
-  .steps-grid {
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-  }
+  /* === STEPS === */
+  .steps { display:flex; flex-direction:column; gap:18px; }
+
   .step {
     background:var(--surface);
     border:1px solid var(--border);
-    border-left:3px solid var(--green);
-    border-radius:4px;
-    padding:24px 28px;
+    border-left:3px solid var(--green-dim);
+    border-radius:6px;
+    padding:28px 32px;
     position:relative;
-    transition:all 0.2s;
-    box-shadow:0 0 0 rgba(0,255,65,0);
+    transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
   }
-  .step:hover {
-    background:var(--surface-2);
+
+  /* LOCKED state */
+  .step.locked {
+    opacity:0.35;
+    filter:grayscale(0.7);
+    pointer-events:none;
+    user-select:none;
+  }
+  .step.locked::after {
+    content:'🔒  LOCKED — completa o passo anterior';
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.4); backdrop-filter:blur(2px);
+    color:var(--green-bright); font-family:var(--font-mono);
+    font-size:13px; font-weight:600;
+    letter-spacing:0.1em; border-radius:6px;
+    pointer-events:auto;
+  }
+  .step.locked .step-content { filter:blur(1px); }
+
+  /* UNLOCKED — current step */
+  .step.unlocked {
     border-left-color:var(--green-bright);
-    box-shadow:0 0 24px rgba(0,255,65,0.15);
-    transform:translateX(4px);
+    box-shadow:0 0 24px rgba(0,255,65,0.2);
+    background:linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
   }
-  .step::before {
-    content:'';
-    position:absolute;
-    left:-3px; top:0;
-    width:3px; height:0;
-    background:var(--green-bright);
-    transition:height 0.3s;
-    box-shadow:0 0 8px var(--green-bright);
+  .step.unlocked .step-id-tag {
+    background:var(--green-bright); color:#000;
+    box-shadow:0 0 12px var(--green-bright);
   }
-  .step:hover::before { height:100%; }
+
+  /* COMPLETED state */
+  .step.completed {
+    border-left-color:var(--green);
+    opacity:0.85;
+  }
+  .step.completed .step-id-tag {
+    background:var(--green-dim);
+    color:var(--text);
+  }
+  .step.completed .step-id-tag::before {
+    content:'✓ '; color:var(--green-bright);
+  }
+  .step.completed .complete-btn {
+    background:var(--green-deep); color:var(--green-bright);
+    cursor:default; pointer-events:none;
+  }
+  .step.completed .complete-btn::before {
+    content:'✓ ';
+  }
 
   .step-head {
-    display:flex;
-    align-items:center;
-    gap:16px;
-    margin-bottom:8px;
+    display:flex; align-items:center; gap:16px;
+    margin-bottom:6px;
   }
-  .step-id {
-    font-family:var(--font-term);
-    font-size:13px;
-    color:var(--green-bright);
+  .step-icon {
+    width:44px; height:44px; flex-shrink:0;
     background:var(--green-soft);
     border:1px solid var(--green-dim);
-    padding:2px 10px;
-    border-radius:3px;
-    letter-spacing:0.1em;
-    flex-shrink:0;
+    border-radius:8px;
+    display:grid; place-items:center;
+    box-shadow:inset 0 0 8px rgba(0,255,65,0.1);
+  }
+  .step-icon svg {
+    width:22px; height:22px;
+    stroke:var(--green-bright);
+  }
+  .step-id-tag {
+    font-family:var(--font-mono); font-size:11px;
+    font-weight:700; color:var(--green-bright);
+    background:var(--green-soft);
+    border:1px solid var(--green-dim);
+    padding:3px 10px; border-radius:4px;
+    letter-spacing:0.12em; flex-shrink:0;
+    transition:all 0.3s;
   }
   .step h3 {
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:18px;
-    color:var(--text);
-    letter-spacing:-0.01em;
+    font-family:var(--font-display); font-weight:800;
+    font-size:20px; color:var(--text);
+    letter-spacing:0.01em; line-height:1.2;
+    flex:1;
   }
+  .step-xp {
+    font-family:var(--font-mono); font-size:12px;
+    color:var(--green-bright); font-weight:700;
+    flex-shrink:0;
+  }
+  .step-xp::before { content:'+'; }
+  .step-xp::after { content:' XP'; }
+
   .step-desc {
-    color:var(--muted);
-    font-size:14px;
-    margin-bottom:14px;
-    padding-left:0;
+    color:var(--muted); font-size:15px;
+    margin:8px 0 18px; padding-left:60px;
   }
-  .step p { color:var(--text); margin:10px 0; font-size:14px; line-height:1.6; }
-  .step strong { color:var(--green-bright); font-weight:600; }
+
+  .step-content {
+    transition:filter 0.3s;
+  }
+
+  .step p { color:var(--text); margin:12px 0; font-size:15px; line-height:1.65; }
+  .step strong { color:var(--green-bright); font-weight:700; }
+
   .step h4 {
-    color:var(--green-bright);
-    font-family:var(--font-term);
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:0.2em;
-    margin:20px 0 8px;
+    font-family:var(--font-mono); font-size:11px;
+    color:var(--green-bright); font-weight:700;
+    text-transform:uppercase; letter-spacing:0.2em;
+    margin:22px 0 10px;
   }
   .step h4::before { content:'> '; color:var(--green); }
-  .step ul, .step ol {
-    color:var(--text);
-    padding-left:24px;
-    margin:10px 0;
-    font-size:14px;
-  }
-  .step ul li, .step ol li { margin:6px 0; line-height:1.5; }
-  .step ul li::marker, .step ol li::marker { color:var(--green); }
 
-  /* === CODE BLOCKS === */
+  .step ul, .step ol {
+    color:var(--text); padding-left:24px; margin:12px 0;
+    font-size:15px;
+  }
+  .step ul li, .step ol li { margin:8px 0; line-height:1.6; }
+  .step ul li::marker, .step ol li::marker {
+    color:var(--green-bright); font-weight:700;
+  }
+
+  /* === COMPLETE BUTTON === */
+  .step-footer {
+    margin-top:24px; padding-top:20px;
+    border-top:1px dashed var(--border-strong);
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; flex-wrap:wrap;
+  }
+  .complete-btn {
+    background:var(--green); color:#000;
+    border:none; padding:12px 28px;
+    font-family:var(--font-mono); font-weight:700;
+    font-size:13px; letter-spacing:0.15em;
+    text-transform:uppercase;
+    border-radius:4px; cursor:pointer;
+    transition:all 0.2s;
+    box-shadow:0 0 16px var(--green-glow);
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .complete-btn:hover {
+    background:var(--green-bright);
+    box-shadow:0 0 24px var(--green-bright);
+    transform:translateY(-1px);
+  }
+  .complete-btn::after { content:'→'; font-weight:900; }
+  .step-progress {
+    font-family:var(--font-mono); font-size:11px;
+    color:var(--dim); letter-spacing:0.15em;
+    text-transform:uppercase;
+  }
+
+  /* === CODE === */
   pre {
-    background:var(--black);
+    background:#020402;
     border:1px solid var(--border-strong);
-    border-radius:3px;
-    padding:14px 18px;
-    overflow-x:auto;
-    margin:12px 0;
+    border-radius:4px;
+    padding:16px 20px;
+    overflow-x:auto; margin:14px 0;
     position:relative;
-    box-shadow:inset 0 0 12px rgba(0,255,65,0.05);
+    box-shadow:inset 0 0 12px rgba(0,255,65,0.06);
   }
   pre::before {
     content:'$ ' attr(data-label);
-    position:absolute;
-    top:6px; right:12px;
-    color:var(--dim);
-    font-size:10px;
-    font-family:var(--font-term);
-    letter-spacing:0.15em;
-    text-transform:uppercase;
+    position:absolute; top:6px; right:14px;
+    color:var(--dim); font-size:10px;
+    font-family:var(--font-mono);
+    letter-spacing:0.18em; text-transform:uppercase;
+    font-weight:600;
   }
   pre code {
     color:var(--green-bright);
     font-family:var(--font-mono);
-    font-size:13px;
-    line-height:1.7;
-    text-shadow:0 0 4px rgba(57,255,20,0.3);
+    font-size:13.5px; line-height:1.7;
+    text-shadow:0 0 4px rgba(57,255,20,0.25);
   }
   code:not(pre code) {
-    background:var(--green-soft);
-    color:var(--green-bright);
+    background:var(--green-soft); color:var(--green-bright);
     border:1px solid var(--green-dim);
-    padding:1px 8px;
-    border-radius:3px;
-    font-family:var(--font-mono);
-    font-size:0.88em;
+    padding:1px 8px; border-radius:3px;
+    font-family:var(--font-mono); font-size:0.88em;
   }
 
   /* === CALLOUTS === */
   .callout {
-    border-radius:3px;
-    padding:14px 18px;
-    margin:16px 0;
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-    border:1px solid;
+    border-radius:4px; padding:14px 18px;
+    margin:16px 0; display:flex; gap:14px;
+    align-items:flex-start; border:1px solid;
     border-left-width:3px;
-    font-family:var(--font-mono);
-    font-size:13px;
+    font-family:var(--font-body); font-size:14px;
     line-height:1.55;
   }
   .callout.info {
-    background:rgba(0,255,65,0.04);
-    border-color:var(--green-dim);
-    color:var(--text);
+    background:rgba(0,255,65,0.05);
+    border-color:var(--green-dim); color:var(--text);
   }
   .callout.warn {
-    background:rgba(255,176,0,0.05);
-    border-color:rgba(255,176,0,0.4);
-    color:var(--amber);
+    background:rgba(255,176,0,0.06);
+    border-color:rgba(255,176,0,0.4); color:#ffd866;
   }
   .callout.tip {
-    background:rgba(0,255,65,0.06);
-    border-color:var(--green-bright);
-    color:#aaffaa;
+    background:rgba(0,255,65,0.08);
+    border-color:var(--green-bright); color:#aaffaa;
   }
   .callout-icon {
-    font-family:var(--font-term);
-    color:var(--green-bright);
-    font-weight:700;
-    font-size:14px;
-    flex-shrink:0;
+    width:24px; height:24px; flex-shrink:0;
+    border-radius:50%; display:grid; place-items:center;
+    font-family:var(--font-display); font-weight:900;
+    font-size:12px;
   }
+  .callout.info .callout-icon { background:var(--green-dim); color:#000; }
+  .callout.warn .callout-icon { background:#ffb000; color:#000; }
+  .callout.tip .callout-icon { background:var(--green-bright); color:#000; }
 
-  /* === PITCH PILL === */
+  /* === PITCH === */
   .pitch {
-    background:linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
-    border:1px solid var(--green);
-    border-radius:4px;
-    padding:24px 28px;
-    margin:28px 0;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 0 24px rgba(0,255,65,0.2);
+    background:linear-gradient(135deg, var(--surface-2) 0%, var(--surface) 100%);
+    border:1px solid var(--green); border-radius:6px;
+    padding:28px 32px; margin:24px 0;
+    position:relative; overflow:hidden;
+    box-shadow:0 0 32px rgba(0,255,65,0.18);
   }
   .pitch::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
+    content:''; position:absolute; top:0; left:0; right:0;
     height:1px;
     background:linear-gradient(90deg, transparent, var(--green-bright), transparent);
     animation:scan 3s linear infinite;
@@ -466,159 +502,200 @@
     100% { transform:translateX(100%); }
   }
   .pitch-tag {
-    display:inline-block;
-    font-family:var(--font-term);
-    color:var(--green-bright);
-    font-size:11px;
-    letter-spacing:0.25em;
-    text-transform:uppercase;
-    margin-bottom:10px;
-    background:var(--green-soft);
-    padding:3px 8px;
-    border:1px solid var(--green-dim);
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--font-mono); color:var(--green-bright);
+    font-size:11px; letter-spacing:0.25em;
+    text-transform:uppercase; margin-bottom:10px;
+    background:var(--green-soft); padding:4px 10px;
+    border:1px solid var(--green-dim); border-radius:3px;
+    font-weight:700;
   }
   .pitch h4 {
-    font-family:var(--font-display);
-    color:var(--green);
-    font-size:28px;
-    font-weight:400;
-    margin-bottom:8px;
+    font-family:var(--font-display); font-weight:900;
+    color:var(--green); font-size:24px;
+    margin-bottom:8px; letter-spacing:0.02em;
     text-shadow:0 0 8px var(--green-glow);
-    letter-spacing:0.02em;
   }
   .pitch p {
-    color:var(--text);
-    font-size:14px;
-    line-height:1.6;
-    margin-bottom:18px;
+    color:var(--text); font-size:14.5px;
+    line-height:1.6; margin-bottom:18px;
   }
-  .pitch a.btn {
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background:var(--green);
-    color:var(--black);
-    text-decoration:none;
-    padding:10px 22px;
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:13px;
-    text-transform:uppercase;
-    letter-spacing:0.1em;
-    border-radius:3px;
+  .pitch a.cta-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--green); color:#000;
+    text-decoration:none; padding:11px 22px;
+    font-family:var(--font-mono); font-weight:700;
+    font-size:13px; text-transform:uppercase;
+    letter-spacing:0.12em; border-radius:4px;
     box-shadow:0 0 16px var(--green-glow);
     transition:all 0.2s;
   }
-  .pitch a.btn:hover {
+  .pitch a.cta-btn:hover {
     background:var(--green-bright);
-    box-shadow:0 0 32px var(--green-bright);
-    transform:translateY(-1px);
+    box-shadow:0 0 28px var(--green-bright);
+    transform:translateY(-2px);
   }
-  .pitch a.btn::after { content:'>'; font-weight:900; }
+  .pitch a.cta-btn::after { content:'→'; font-weight:900; font-size:14px; }
 
-  /* === LINK GRID === */
+  /* === LINKS GRID === */
   .links-grid {
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:12px;
-    margin:20px 0;
+    gap:12px; margin:20px 0;
   }
   .link-card {
     background:var(--surface);
     border:1px solid var(--border-strong);
-    border-radius:3px;
-    padding:16px 18px;
-    text-decoration:none;
-    color:var(--text);
-    transition:all 0.2s;
-    display:block;
+    border-radius:4px; padding:16px;
+    text-decoration:none; color:var(--text);
+    transition:all 0.2s; display:block;
   }
   .link-card:hover {
-    border-color:var(--green);
-    background:var(--surface-2);
+    border-color:var(--green); background:var(--surface-2);
     transform:translateY(-2px);
     box-shadow:0 0 16px rgba(0,255,65,0.2);
   }
   .link-card .icon { font-size:22px; margin-bottom:6px; display:block; }
   .link-card .name {
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:13px;
-    color:var(--green-bright);
-    margin-bottom:3px;
+    font-family:var(--font-display); font-weight:700;
+    font-size:13px; color:var(--green-bright); margin-bottom:4px;
+    letter-spacing:0.04em;
   }
   .link-card .url {
-    color:var(--dim);
-    font-size:10.5px;
-    font-family:var(--font-term);
-    word-break:break-all;
-    letter-spacing:0.05em;
+    color:var(--dim); font-size:10.5px;
+    font-family:var(--font-mono); word-break:break-all;
   }
 
   /* === TABLE === */
   table {
-    width:100%;
-    border-collapse:collapse;
-    margin:14px 0;
-    background:var(--black);
-    border:1px solid var(--border-strong);
-    border-radius:3px;
-    overflow:hidden;
-    font-family:var(--font-mono);
-    font-size:13px;
+    width:100%; border-collapse:collapse; margin:14px 0;
+    background:#020402; border:1px solid var(--border-strong);
+    border-radius:4px; overflow:hidden;
+    font-family:var(--font-body); font-size:14px;
   }
-  th, td {
-    padding:10px 14px;
-    text-align:left;
-    border-bottom:1px solid var(--border);
-  }
+  th, td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
   th {
-    background:var(--surface-3);
-    color:var(--green-bright);
-    font-family:var(--font-term);
-    font-size:11px;
-    letter-spacing:0.15em;
-    text-transform:uppercase;
-    font-weight:400;
+    background:var(--surface-3); color:var(--green-bright);
+    font-family:var(--font-mono); font-size:11px;
+    letter-spacing:0.15em; text-transform:uppercase;
+    font-weight:700;
   }
   td { color:var(--text); }
   tr:last-child td { border-bottom:none; }
-  td code { font-size:12px; }
-  td a { color:var(--green-bright); text-decoration:none; }
-  td a:hover { text-shadow:0 0 8px var(--green-glow); }
+  td code { font-size:12.5px; }
+  td a { color:var(--green-bright); text-decoration:none; font-weight:600; }
+  td a:hover { text-shadow:0 0 6px var(--green-glow); }
 
-  /* === FOOTER === */
-  footer {
-    margin-top:80px;
-    padding:48px 0;
-    border-top:1px dashed var(--border-strong);
+  /* === COMPLETION MODAL === */
+  .completion-overlay {
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.85); backdrop-filter:blur(8px);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:20px;
+  }
+  .completion-overlay.show { display:flex; animation:fadein 0.3s; }
+  @keyframes fadein { from { opacity:0; } to { opacity:1; } }
+  .completion-card {
+    background:linear-gradient(135deg, var(--surface-2), var(--surface));
+    border:2px solid var(--green-bright);
+    border-radius:8px; padding:48px;
+    max-width:540px; width:100%;
     text-align:center;
-    font-family:var(--font-term);
+    box-shadow:0 0 80px var(--green-bright);
+    animation:popin 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .footer-ascii {
-    color:var(--green);
-    font-size:12px;
-    white-space:pre;
-    line-height:1.2;
-    margin-bottom:24px;
-    text-shadow:0 0 6px var(--green-glow);
+  @keyframes popin {
+    from { transform:scale(0.7); opacity:0; }
+    to { transform:scale(1); opacity:1; }
   }
-  footer p { color:var(--muted); font-size:13px; margin:6px 0; }
-  footer a { color:var(--green); text-decoration:none; }
-  footer a:hover { color:var(--green-bright); text-shadow:0 0 6px var(--green-glow); }
+  .completion-card h2 {
+    font-family:var(--font-display); font-weight:900;
+    font-size:48px; color:var(--green-bright);
+    text-shadow:0 0 20px var(--green-bright);
+    margin-bottom:12px; letter-spacing:0.02em;
+  }
+  .completion-card p {
+    color:var(--text); font-size:17px;
+    margin-bottom:24px; line-height:1.6;
+  }
+  .completion-card .badge-list {
+    display:flex; gap:12px; flex-wrap:wrap;
+    justify-content:center; margin:24px 0;
+  }
+  .completion-card .badge-list .b {
+    background:var(--green-soft); border:1px solid var(--green);
+    padding:6px 14px; border-radius:999px;
+    font-family:var(--font-mono); font-size:12px;
+    color:var(--green-bright); letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+  .completion-card .ctas {
+    display:flex; gap:12px; justify-content:center;
+    flex-wrap:wrap; margin-top:28px;
+  }
+  .completion-card .ctas a {
+    background:var(--green); color:#000;
+    padding:12px 24px; border-radius:4px;
+    text-decoration:none; font-family:var(--font-mono);
+    font-weight:700; font-size:13px; text-transform:uppercase;
+    letter-spacing:0.12em; box-shadow:0 0 16px var(--green-glow);
+    transition:all 0.2s;
+  }
+  .completion-card .ctas a:hover {
+    background:var(--green-bright);
+    transform:translateY(-2px);
+  }
+  .completion-card .ctas a.secondary {
+    background:transparent; color:var(--green-bright);
+    border:1px solid var(--green);
+    box-shadow:none;
+  }
 
-  /* === MOBILE === */
+  /* === RESET BTN === */
+  .reset-progress {
+    position:fixed; bottom:20px; right:20px;
+    background:rgba(5,8,5,0.9); border:1px solid var(--border-strong);
+    color:var(--dim); padding:8px 14px; border-radius:4px;
+    font-family:var(--font-mono); font-size:11px;
+    cursor:pointer; transition:all 0.2s;
+    z-index:40; letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+  .reset-progress:hover {
+    color:var(--green-bright); border-color:var(--green);
+  }
+
+  footer {
+    margin-top:80px; padding:48px 0;
+    border-top:1px dashed var(--border-strong);
+    text-align:center; font-family:var(--font-mono);
+  }
+  footer .brand-grad {
+    font-family:var(--font-display); font-weight:900;
+    font-size:24px;
+    background:linear-gradient(135deg, var(--green-bright), var(--green));
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:14px; letter-spacing:0.05em;
+  }
+  footer p { color:var(--muted); font-size:13px; margin:4px 0; }
+  footer a { color:var(--green-bright); text-decoration:none; }
+
   @media (max-width:680px) {
     .wrap { padding:0 16px; }
-    .roadmap::before { left:16px; }
-    .mission { padding-left:56px; }
-    .mission-marker { left:-56px; width:56px; height:56px; }
-    .mission-marker svg { width:24px; height:24px; }
-    .mission h2 { font-size:32px; }
-    .hero { padding:60px 0 40px; }
-    .hero .stats { gap:20px; }
-    .hero .stat .num { font-size:34px; }
-    .step { padding:18px 20px; }
+    .roadmap::before { left:24px; }
+    .mission { padding-left:64px; }
+    .mission-marker { left:-56px; width:60px; height:60px; }
+    .mission-marker svg { width:28px; height:28px; }
+    .mission h2 { font-size:26px; }
+    .step { padding:22px 20px; }
+    .step h3 { font-size:17px; }
+    .step-desc { padding-left:0; }
+    .hero h1 { font-size:42px; }
+    .hero .stats { gap:18px; }
+    .hero .stat .num { font-size:28px; }
+    .xp-row { padding:8px 16px; gap:10px; }
+    .xp-label { font-size:11px; }
   }
 </style>
 </head>
@@ -626,18 +703,20 @@
 
 <canvas id="matrix-rain"></canvas>
 
+<!-- TERMINAL BAR + XP -->
 <div class="term-bar">
-  <div class="wrap">
-    <div style="display:flex; gap:12px; align-items:center;">
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span class="live"></span>
-      </div>
-      <span style="color:var(--green); font-weight:700;">geek-claude-ugc:~$</span>
-      <span style="color:var(--muted);">./initialize.sh</span>
+  <div class="row1">
+    <div class="term-brand">
+      <div class="logo-box">GC</div>
+      <span>geek-claude-ugc</span>
+      <span style="color:var(--muted); font-weight:400">// init sequence</span>
     </div>
-    <div class="pwd">CONNECTED <span class="blink">●</span></div>
+    <div class="term-meta">SYSTEM ONLINE <span class="live">●</span></div>
+  </div>
+  <div class="xp-row">
+    <span class="xp-label">XP</span>
+    <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+    <div class="xp-stats"><span class="xp-num" id="xpNum">0</span> / 1600 XP · <span id="stepDone">0</span>/16</div>
   </div>
 </div>
 
@@ -645,42 +724,25 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="console-line">access granted // initializing pipeline...</div>
-    <h1>WELCOME TO<br/><span class="accent">THE MATRIX</span></h1>
+    <div class="preline">PROTOCOL UGC // CLONE_MODE</div>
+    <h1>VOCÊ TOMOU<br/><span class="grad">A PÍLULA VERMELHA</span></h1>
     <p class="tagline">
-      Você tomou a pílula vermelha. A partir daqui, você cria ads UGC vencedores sem editor, sem aparecer, sem pagar produção. 16 missões. 20 minutos. Bora?
+      Daqui em diante você cria ad UGC vencedor em 20 minutos. Sem editor. Sem aparecer. Sem pagar produção. 16 missões. Pílula azul não tem volta — clica em "Mark Complete" só depois de fazer cada passo de verdade.
     </p>
-
     <div class="stats">
-      <div class="stat">
-        <div class="num">16</div>
-        <div class="lbl">Missões</div>
-      </div>
-      <div class="stat">
-        <div class="num">04</div>
-        <div class="lbl">Fases</div>
-      </div>
-      <div class="stat">
-        <div class="num">20m</div>
-        <div class="lbl">Setup total</div>
-      </div>
-      <div class="stat">
-        <div class="num">$0</div>
-        <div class="lbl">Custo base</div>
-      </div>
-      <div class="stat">
-        <div class="num">∞</div>
-        <div class="lbl">Ads gerados</div>
-      </div>
+      <div class="stat"><div class="num">16</div><div class="lbl">Missões</div></div>
+      <div class="stat"><div class="num">04</div><div class="lbl">Fases</div></div>
+      <div class="stat"><div class="num">1600</div><div class="lbl">XP Total</div></div>
+      <div class="stat"><div class="num">20m</div><div class="lbl">Setup</div></div>
+      <div class="stat"><div class="num">$0</div><div class="lbl">Custo base</div></div>
     </div>
   </section>
 
-  <div class="ascii-div">ROADMAP // TRILHA</div>
+  <div class="ascii-div"><span class="label">ROADMAP // TRILHA DE MISSÕES</span></div>
 
-  <!-- ROADMAP -->
   <div class="roadmap">
 
-    <!-- FASE 1 — SETUP BASE -->
+    <!-- ========== FASE 01 — SETUP BASE ========== -->
     <div class="mission">
       <div class="mission-header">
         <div class="mission-marker">
@@ -691,197 +753,328 @@
         </div>
         <div class="mission-eyebrow">FASE 01 / 04</div>
         <h2>SETUP BASE</h2>
-        <p class="mission-desc">Instala as ferramentas base no seu PC. Python, ffmpeg, Bun, HyperFrames. Roda 1x na vida.</p>
+        <p class="mission-desc">Instala as ferramentas base no PC: Python, ffmpeg, Bun, HyperFrames. Roda 1× na vida do projeto.</p>
       </div>
 
-      <div class="steps-grid">
+      <div class="steps">
 
-        <!-- STEP 1 -->
-        <div class="step" id="p1">
+        <!-- STEP 01 -->
+        <div class="step" data-step="1" data-xp="100" id="p1">
           <div class="step-head">
-            <span class="step-id">[01]</span>
-            <h3>Clonar o repositório</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">01</span>
+            <h3>Clonar o Repositório</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">Baixa o código do GitHub.</p>
-          <pre data-label="bash"><code>git clone https://github.com/Geeknosnegocios/geekclaudeUGC.git
+          <p class="step-desc">Baixa o código do GitHub pro seu PC.</p>
+          <div class="step-content">
+            <pre data-label="bash"><code>git clone https://github.com/Geeknosnegocios/geekclaudeUGC.git
 cd geekclaudeUGC</code></pre>
-          <div class="callout info">
-            <span class="callout-icon">[i]</span>
-            <div>Sem git? <code>winget install Git.Git</code> · <code>brew install git</code> · <code>sudo apt install git</code></div>
+            <div class="callout info">
+              <div class="callout-icon">i</div>
+              <div>Sem <code>git</code>? Windows: <code>winget install Git.Git</code> · Mac: <code>brew install git</code> · Linux: <code>sudo apt install git</code></div>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 01 of 16</span>
+            <button class="complete-btn" onclick="completeStep(1)">Marcar Completo</button>
           </div>
         </div>
 
-        <!-- STEP 2 -->
-        <div class="step" id="p2">
+        <!-- STEP 02 -->
+        <div class="step locked" data-step="2" data-xp="100" id="p2">
           <div class="step-head">
-            <span class="step-id">[02]</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">02</span>
             <h3>Instalar Python 3.10+</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">Linguagem que roda o build pipeline.</p>
-          <table>
-            <thead><tr><th>SO</th><th>Como</th></tr></thead>
-            <tbody>
-              <tr><td>Windows</td><td><a href="https://www.python.org/downloads/windows/">python.org</a> + marcar <strong>"Add to PATH"</strong></td></tr>
-              <tr><td>Mac</td><td><code>brew install python@3.11</code></td></tr>
-              <tr><td>Linux</td><td><code>sudo apt install python3 python3-pip</code></td></tr>
-            </tbody>
-          </table>
-          <pre data-label="verify"><code>python --version</code></pre>
+          <div class="step-content">
+            <table>
+              <thead><tr><th>SO</th><th>Como instalar</th></tr></thead>
+              <tbody>
+                <tr><td>Windows</td><td><a href="https://www.python.org/downloads/windows/">python.org/downloads/windows</a> + marca <strong>"Add to PATH"</strong></td></tr>
+                <tr><td>Mac</td><td><code>brew install python@3.11</code></td></tr>
+                <tr><td>Linux</td><td><code>sudo apt install python3 python3-pip</code></td></tr>
+              </tbody>
+            </table>
+            <pre data-label="verify"><code>python --version</code></pre>
+            <div class="pitch">
+              <div class="pitch-tag">🎓 LEVEL UP</div>
+              <h4>FORMAÇÃO PRODUTOR MILIONÁRIO</h4>
+              <p>Aprende o sistema completo lowticket — primeiro produto no ar em 1h, primeira venda no mesmo dia. Tudo com Claude.</p>
+              <a class="cta-btn" href="https://produtor.geekacademy.site">Conhecer Formação</a>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 02 of 16</span>
+            <button class="complete-btn" onclick="completeStep(2)">Marcar Completo</button>
+          </div>
         </div>
 
-        <!-- STEP 3 -->
-        <div class="step" id="p3">
+        <!-- STEP 03 -->
+        <div class="step locked" data-step="3" data-xp="100" id="p3">
           <div class="step-head">
-            <span class="step-id">[03]</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="9" y1="21" x2="9" y2="9"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">03</span>
             <h3>Dependências Python</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">Bibliotecas que o build usa.</p>
-          <pre data-label="bash"><code>pip install -r requirements.txt</code></pre>
-          <div class="callout info">
-            <span class="callout-icon">[i]</span>
-            <div>Demora 1-2 min. <code>faster-whisper</code> baixa modelos do Whisper.</div>
+          <div class="step-content">
+            <pre data-label="bash"><code>pip install -r requirements.txt</code></pre>
+            <div class="callout info">
+              <div class="callout-icon">i</div>
+              <div>Demora 1-2 min. <code>faster-whisper</code> baixa modelos do Whisper local.</div>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 03 of 16</span>
+            <button class="complete-btn" onclick="completeStep(3)">Marcar Completo</button>
           </div>
         </div>
 
-        <!-- STEP 4 -->
-        <div class="step" id="p4">
+        <!-- STEP 04 -->
+        <div class="step locked" data-step="4" data-xp="100" id="p4">
           <div class="step-head">
-            <span class="step-id">[04]</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="23 7 16 12 23 17 23 7"/>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">04</span>
             <h3>Instalar ffmpeg</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">Processamento de vídeo. Coração do pipeline.</p>
-          <table>
-            <thead><tr><th>SO</th><th>Comando</th></tr></thead>
-            <tbody>
-              <tr><td>Windows</td><td><code>winget install ffmpeg</code></td></tr>
-              <tr><td>Mac</td><td><code>brew install ffmpeg</code></td></tr>
-              <tr><td>Linux</td><td><code>sudo apt install ffmpeg</code></td></tr>
-            </tbody>
-          </table>
-          <div class="callout tip">
-            <span class="callout-icon">[ok]</span>
-            <div>Não rolou? Tranquilo. <code>imageio-ffmpeg</code> (Passo 03) traz embutido.</div>
+          <div class="step-content">
+            <table>
+              <thead><tr><th>SO</th><th>Comando</th></tr></thead>
+              <tbody>
+                <tr><td>Windows</td><td><code>winget install ffmpeg</code></td></tr>
+                <tr><td>Mac</td><td><code>brew install ffmpeg</code></td></tr>
+                <tr><td>Linux</td><td><code>sudo apt install ffmpeg</code></td></tr>
+              </tbody>
+            </table>
+            <div class="callout tip">
+              <div class="callout-icon">✓</div>
+              <div>Não rolou? Tranquilo. <code>imageio-ffmpeg</code> (Passo 03) traz embutido.</div>
+            </div>
+            <div class="pitch">
+              <div class="pitch-tag">🛠️ BÔNUS PAGO</div>
+              <h4>RATEAKI</h4>
+              <p>HeyGen + SuperGrok + ElevenLabs Starter juntos somam R$ 300+/mês. Rateio divide com a galera por fração do preço.</p>
+              <a class="cta-btn" href="https://rateaki.geekacademy.site">Acessar Rateio</a>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 04 of 16</span>
+            <button class="complete-btn" onclick="completeStep(4)">Marcar Completo</button>
           </div>
         </div>
 
-        <!-- STEP 5 -->
-        <div class="step" id="p5">
+        <!-- STEP 05 -->
+        <div class="step locked" data-step="5" data-xp="100" id="p5">
           <div class="step-head">
-            <span class="step-id">[05]</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">05</span>
             <h3>Instalar Bun</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">Runtime JS que roda o HyperFrames (camada polish).</p>
-          <h4>Windows</h4>
-          <pre data-label="powershell"><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
-          <h4>Mac / Linux</h4>
-          <pre data-label="bash"><code>curl -fsSL https://bun.sh/install | bash</code></pre>
+          <p class="step-desc">Runtime JS que roda o HyperFrames (polish layer).</p>
+          <div class="step-content">
+            <h4>Windows</h4>
+            <pre data-label="powershell"><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
+            <h4>Mac / Linux</h4>
+            <pre data-label="bash"><code>curl -fsSL https://bun.sh/install | bash</code></pre>
+            <pre data-label="verify"><code>bun --version</code></pre>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 05 of 16</span>
+            <button class="complete-btn" onclick="completeStep(5)">Marcar Completo</button>
+          </div>
         </div>
 
-        <!-- STEP 6 -->
-        <div class="step" id="p6">
+        <!-- STEP 06 -->
+        <div class="step locked" data-step="6" data-xp="100" id="p6">
           <div class="step-head">
-            <span class="step-id">[06]</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">06</span>
             <h3>Instalar HyperFrames</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">Camada de polish premium. 85 blocks profissionais grátis.</p>
-          <pre data-label="bash"><code>mkdir -p vendor
+          <div class="step-content">
+            <pre data-label="bash"><code>mkdir -p vendor
 git clone --depth=1 https://github.com/heygen-com/hyperframes.git vendor/hyperframes
 cd vendor/hyperframes && bun install && bun run build
 cd ../..</code></pre>
-          <div class="callout warn">
-            <span class="callout-icon">[!]</span>
-            <div>Baixa Chromium ~170MB. 2-3 min na primeira vez. Roda 1× na vida.</div>
+            <div class="callout warn">
+              <div class="callout-icon">!</div>
+              <div>Baixa Chromium ~170MB. 2-3 min na primeira vez. Roda 1× só.</div>
+            </div>
+            <pre data-label="verify"><code>bin/hf doctor</code></pre>
           </div>
-          <pre data-label="verify"><code>bin/hf doctor</code></pre>
+          <div class="step-footer">
+            <span class="step-progress">step 06 of 16 · 🏁 FASE 01 COMPLETA</span>
+            <button class="complete-btn" onclick="completeStep(6)">Marcar Completo</button>
+          </div>
         </div>
 
       </div>
     </div>
 
-    <!-- FASE 2 — CONNECT APIs -->
+    <!-- ========== FASE 02 — CONECTAR APIs ========== -->
     <div class="mission">
       <div class="mission-header">
         <div class="mission-marker">
           <svg viewBox="0 0 24 24" fill="none" stroke="#00FF41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
           </svg>
         </div>
         <div class="mission-eyebrow">FASE 02 / 04</div>
-        <h2>CONECTAR APIS</h2>
-        <p class="mission-desc">Cria contas, pega as chaves, conecta tudo. Tudo grátis. ~5 minutos.</p>
+        <h2>CONECTAR APIs</h2>
+        <p class="mission-desc">Cria contas grátis, pega chaves, conecta tudo. Total ~5 min.</p>
       </div>
 
-      <div class="steps-grid">
+      <div class="steps">
 
-        <!-- STEP 7 -->
-        <div class="step" id="p7">
+        <!-- STEP 07 -->
+        <div class="step locked" data-step="7" data-xp="100" id="p7">
           <div class="step-head">
-            <span class="step-id">[07]</span>
-            <h3>Criar contas + chaves API</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">07</span>
+            <h3>Contas + Chaves API</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">5 serviços. Todos grátis. Sem cartão.</p>
-
-          <h4>Pexels</h4>
-          <p>Acessa <a href="https://www.pexels.com/api/" style="color:var(--green-bright)">pexels.com/api</a> → cria conta → copia Authorization key.</p>
-
-          <h4>Pixabay</h4>
-          <p>Acessa <a href="https://pixabay.com/accounts/register/" style="color:var(--green-bright)">pixabay.com/accounts/register</a> → Profile → tab API → copia.</p>
-
-          <h4>ElevenLabs</h4>
-          <p>Acessa <a href="https://elevenlabs.io" style="color:var(--green-bright)">elevenlabs.io</a> → Profile → API Key → copia.</p>
-
-          <h4>Jamendo</h4>
-          <p><a href="https://devportal.jamendo.com" style="color:var(--green-bright)">devportal.jamendo.com</a> → My Apps → Create new app → copia Client ID.</p>
-
-          <div class="pitch">
-            <div class="pitch-tag">⚡ BÔNUS PAGO</div>
-            <h4>RATEAKI</h4>
-            <p>HeyGen + SuperGrok + ElevenLabs Starter — pagos juntos somam R$ 300+/mês. Rateio divide com a galera por uma fração.</p>
-            <a class="btn" href="https://rateaki.geekacademy.site">Acessar Rateio</a>
+          <div class="step-content">
+            <h4>Pexels — b-roll grátis ∞</h4>
+            <p><a href="https://www.pexels.com/api/">pexels.com/api</a> → cria conta → copia Authorization key</p>
+            <h4>Pixabay — imagens + vídeos grátis</h4>
+            <p><a href="https://pixabay.com/accounts/register/">pixabay.com/accounts/register</a> → Profile → tab API</p>
+            <h4>ElevenLabs — TTS 10k chars/mês</h4>
+            <p><a href="https://elevenlabs.io">elevenlabs.io</a> → Profile → API Key</p>
+            <h4>Jamendo — música 35k tracks grátis</h4>
+            <p><a href="https://devportal.jamendo.com">devportal.jamendo.com</a> → My Apps → Create new app → copia Client ID</p>
+            <div class="pitch">
+              <div class="pitch-tag">⚡ BÔNUS PAGO</div>
+              <h4>RATEAKI — STACK COMPLETA</h4>
+              <p>HeyGen avatar profissional + SuperGrok video AI + ElevenLabs Starter (voz PT-BR nativa). Tudo no mesmo lugar, dividido com a galera.</p>
+              <a class="cta-btn" href="https://rateaki.geekacademy.site">Entrar no Rateio</a>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 07 of 16</span>
+            <button class="complete-btn" onclick="completeStep(7)">Marcar Completo</button>
           </div>
         </div>
 
-        <!-- STEP 8 -->
-        <div class="step" id="p8">
+        <!-- STEP 08 -->
+        <div class="step locked" data-step="8" data-xp="100" id="p8">
           <div class="step-head">
-            <span class="step-id">[08]</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">08</span>
             <h3>Preencher o .env</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">Cola as chaves no arquivo de config.</p>
-          <pre data-label="bash"><code>cp .env.example .env</code></pre>
-          <pre data-label=".env"><code>PEXELS_KEY=cola_aqui
+          <div class="step-content">
+            <pre data-label="bash"><code>cp .env.example .env</code></pre>
+            <pre data-label=".env"><code>PEXELS_KEY=cola_aqui
 PIXABAY_KEY=cola_aqui
 ELEVEN_KEY=cola_aqui
 ELEVEN_VOICE_ID=cgSgspJ2msm6clMCkdW9
 JAMENDO_CLIENT_ID=cola_aqui</code></pre>
-          <div class="callout warn">
-            <span class="callout-icon">[!]</span>
-            <div><strong>Nunca</strong> commita o <code>.env</code> no GitHub. Já tá no <code>.gitignore</code>.</div>
+            <div class="callout warn">
+              <div class="callout-icon">!</div>
+              <div><strong>Nunca</strong> commita <code>.env</code> no GitHub. Já tá no <code>.gitignore</code>.</div>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 08 of 16</span>
+            <button class="complete-btn" onclick="completeStep(8)">Marcar Completo</button>
           </div>
         </div>
 
-        <!-- STEP 9 -->
-        <div class="step" id="p9">
+        <!-- STEP 09 -->
+        <div class="step locked" data-step="9" data-xp="100" id="p9">
           <div class="step-head">
-            <span class="step-id">[09]</span>
-            <h3>Abrir o agente</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <circle cx="12" cy="5" r="2"/>
+                <path d="M12 7v4"/>
+                <line x1="8" y1="16" x2="8" y2="16"/>
+                <line x1="16" y1="16" x2="16" y2="16"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">09</span>
+            <h3>Abrir o Agente</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">Funciona em 3 agentes. Escolhe o seu.</p>
-          <table>
-            <thead><tr><th>Agente</th><th>Comando</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Claude Code</strong> ★</td><td><code>claude</code></td></tr>
-              <tr><td>OpenAI Codex</td><td><code>codex</code></td></tr>
-              <tr><td>Gemini CLI</td><td><code>gemini</code></td></tr>
-            </tbody>
-          </table>
+          <p class="step-desc">Funciona em 3 agentes diferentes.</p>
+          <div class="step-content">
+            <table>
+              <thead><tr><th>Agente</th><th>Comando</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Claude Code</strong> ★</td><td><code>claude</code></td></tr>
+                <tr><td>OpenAI Codex</td><td><code>codex</code></td></tr>
+                <tr><td>Gemini CLI</td><td><code>gemini</code></td></tr>
+              </tbody>
+            </table>
+            <div class="pitch">
+              <div class="pitch-tag">🎓 LEVEL UP</div>
+              <h4>QUER FATURAR DE VERDADE?</h4>
+              <p>Saber instalar é 5%. O ouro é nicho + copy + tráfego. Sistema completo lowticket que coloca o produto no ar em 1h e gera venda no mesmo dia.</p>
+              <a class="cta-btn" href="https://produtor.geekacademy.site">Formação Produtor Milionário</a>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 09 of 16 · 🏁 FASE 02 COMPLETA</span>
+            <button class="complete-btn" onclick="completeStep(9)">Marcar Completo</button>
+          </div>
         </div>
 
       </div>
     </div>
 
-    <!-- FASE 3 — CRIAR O AD -->
+    <!-- ========== FASE 03 — CRIAR O AD ========== -->
     <div class="mission">
       <div class="mission-header">
         <div class="mission-marker">
@@ -891,125 +1084,181 @@ JAMENDO_CLIENT_ID=cola_aqui</code></pre>
         </div>
         <div class="mission-eyebrow">FASE 03 / 04</div>
         <h2>CRIAR O AD</h2>
-        <p class="mission-desc">Achar referência → agente analisa → você gera nos sites → o pipeline cuida do resto.</p>
+        <p class="mission-desc">Achar referência → agente analisa → você gera → pipeline cuida do resto.</p>
       </div>
 
-      <div class="steps-grid">
+      <div class="steps">
 
         <!-- STEP 10 -->
-        <div class="step" id="p10">
+        <div class="step locked" data-step="10" data-xp="100" id="p10">
           <div class="step-head">
-            <span class="step-id">[10]</span>
-            <h3>Achar ad referência no TikTok</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">10</span>
+            <h3>Achar Ad Referência</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">Pega um anúncio bombando do seu nicho.</p>
-          <p>Acessa <a href="https://ads.tiktok.com/business/creativecenter/topads/pc/en" style="color:var(--green-bright)">TikTok Creative Center</a>.</p>
-
-          <h4>Filtros</h4>
-          <table>
-            <tbody>
-              <tr><td>Região</td><td>Brasil</td></tr>
-              <tr><td>Setor</td><td>Seu nicho</td></tr>
-              <tr><td>Tempo</td><td>30 dias</td></tr>
-              <tr><td>Idioma</td><td>Português</td></tr>
-              <tr><td>Ordenar</td><td><strong>CTR</strong></td></tr>
-            </tbody>
-          </table>
-
-          <h4>Critério vencedor</h4>
-          <ul>
-            <li>Rodando há <strong>30+ dias</strong></li>
-            <li>CTR > <strong>1%</strong></li>
-            <li>Vertical 9:16, 12-25s</li>
-            <li>Hook nos primeiros 1.5s</li>
-          </ul>
-
-          <h4>Baixar</h4>
-          <ul>
-            <li><strong>DevTools</strong> F12 → Network → Media → play → click direito no .mp4 → Save</li>
-            <li><strong>Video DownloadHelper</strong> extensão</li>
-            <li><strong>OBS Studio</strong> grava tela</li>
-            <li><strong>Win+G</strong> Xbox Game Bar</li>
-          </ul>
-          <pre data-label="path"><code>geekclaudeUGC/01_talking_head/assets/reference.mp4</code></pre>
+          <p class="step-desc">Pega ad bombando do seu nicho no TikTok.</p>
+          <div class="step-content">
+            <p>Acessa <a href="https://ads.tiktok.com/business/creativecenter/topads/pc/en">TikTok Creative Center</a>.</p>
+            <h4>Filtros</h4>
+            <table>
+              <tbody>
+                <tr><td>Região</td><td>Brasil</td></tr>
+                <tr><td>Setor</td><td>Seu nicho</td></tr>
+                <tr><td>Tempo</td><td>30 dias</td></tr>
+                <tr><td>Idioma</td><td>Português</td></tr>
+                <tr><td>Ordenar</td><td><strong>CTR</strong></td></tr>
+              </tbody>
+            </table>
+            <h4>Critério vencedor</h4>
+            <ul>
+              <li>Rodando <strong>30+ dias</strong></li>
+              <li>CTR &gt; <strong>1%</strong></li>
+              <li>Vertical 9:16, 12-25s</li>
+              <li>Hook nos primeiros 1.5s</li>
+            </ul>
+            <h4>Baixar MP4</h4>
+            <ul>
+              <li><strong>DevTools</strong> F12 → Network → Media → play → click direito no .mp4 → Save</li>
+              <li><strong>Video DownloadHelper</strong> extensão</li>
+              <li><strong>OBS Studio</strong> grava tela</li>
+              <li><strong>Win+G</strong> Xbox Game Bar</li>
+            </ul>
+            <pre data-label="path"><code>geekclaudeUGC/01_talking_head/assets/reference.mp4</code></pre>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 10 of 16</span>
+            <button class="complete-btn" onclick="completeStep(10)">Marcar Completo</button>
+          </div>
         </div>
 
         <!-- STEP 11 -->
-        <div class="step" id="p11">
+        <div class="step locked" data-step="11" data-xp="100" id="p11">
           <div class="step-head">
-            <span class="step-id">[11]</span>
-            <h3>Pedir clone pro agente</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                <path d="M3 21v-1a6 6 0 0 1 6-6h0a6 6 0 0 1 6 6v1"/>
+                <line x1="18" y1="6" x2="22" y2="6"/>
+                <line x1="20" y1="4" x2="20" y2="8"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">11</span>
+            <h3>Pedir Clone pro Agente</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">O agente faz o trabalho duro.</p>
-          <pre data-label="prompt"><code>Clona esse ad pra mim. É de [seu nicho].
-Vou anunciar meu produto [nome do produto].
+          <p class="step-desc">Agente faz o trabalho duro: transcreve, analisa, reescreve.</p>
+          <div class="step-content">
+            <pre data-label="prompt"><code>Clona esse ad pra mim. É de [seu nicho].
+Vou anunciar meu produto [nome].
 Foto do produto: [anexa imagem]
 Referência: 01_talking_head/assets/reference.mp4</code></pre>
-
-          <h4>O agente entrega</h4>
-          <ol>
-            <li>Análise da referência (beats, setting, character)</li>
-            <li>Script PT-BR adaptado pro seu produto</li>
-            <li>Briefing HeyGen (avatar, voz)</li>
-            <li>Prompts SuperGrok (3-6 prompts pra clips)</li>
-            <li>Asset checklist com caminhos</li>
-            <li>Comando final pra rodar</li>
-          </ol>
-
-          <div class="pitch">
-            <div class="pitch-tag">🎓 LEVEL UP</div>
-            <h4>FORMAÇÃO PRODUTOR MILIONÁRIO</h4>
-            <p>Sistema completo lowticket: nicho, copy, página, tráfego, funil. Tudo com Claude. Primeira venda no mesmo dia.</p>
-            <a class="btn" href="https://produtor.geekacademy.site">Conhecer Formação</a>
+            <h4>O Agente Entrega</h4>
+            <ol>
+              <li>Análise da referência (beats, setting, character)</li>
+              <li>Script PT-BR adaptado pro seu produto</li>
+              <li>Briefing HeyGen (avatar + voz)</li>
+              <li>Prompts SuperGrok pra 3-6 clips</li>
+              <li>Asset checklist com caminhos exatos</li>
+              <li>Comando final pra rodar</li>
+            </ol>
+            <div class="pitch">
+              <div class="pitch-tag">🎓 LEVEL UP</div>
+              <h4>FORMAÇÃO PRODUTOR MILIONÁRIO</h4>
+              <p>Achar ad bom é skill. Saber o que clonar e como angular pro SEU produto é arte. Aprende método completo.</p>
+              <a class="cta-btn" href="https://produtor.geekacademy.site">Conhecer Formação</a>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 11 of 16</span>
+            <button class="complete-btn" onclick="completeStep(11)">Marcar Completo</button>
           </div>
         </div>
 
         <!-- STEP 12 -->
-        <div class="step" id="p12">
+        <div class="step locked" data-step="12" data-xp="100" id="p12">
           <div class="step-head">
-            <span class="step-id">[12]</span>
-            <h3>Gerar avatar no HeyGen</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">12</span>
+            <h3>Gerar Avatar HeyGen</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">Só se template usa avatar (01, 02, 04).</p>
-          <ol>
-            <li>Abre <a href="https://app.heygen.com/" style="color:var(--green-bright)">app.heygen.com</a></li>
-            <li>Create Video → AI Avatar</li>
-            <li>Cola o script</li>
-            <li>Escolhe avatar + voz sugeridos</li>
-            <li>Aspect <strong>9:16</strong>, 720p+</li>
-            <li>Generate (1-3 min) → Download MP4</li>
-            <li>Salva em <code>assets/heygen.mp4</code></li>
-          </ol>
-          <div class="callout warn">
-            <span class="callout-icon">[!]</span>
-            <div>Template 02 precisa de <strong>2 vídeos</strong>: <code>heygen_intro.mp4</code> + <code>heygen_outro.mp4</code>.</div>
+          <div class="step-content">
+            <ol>
+              <li>Abre <a href="https://app.heygen.com/">app.heygen.com</a></li>
+              <li>Create Video → AI Avatar</li>
+              <li>Cola o script</li>
+              <li>Escolhe avatar + voz sugeridos</li>
+              <li>Aspect <strong>9:16</strong>, 720p+</li>
+              <li>Generate (1-3 min) → Download MP4</li>
+              <li>Salva em <code>assets/heygen.mp4</code></li>
+            </ol>
+            <div class="callout warn">
+              <div class="callout-icon">!</div>
+              <div>Template 02 (unboxing) precisa <strong>2 vídeos</strong>: <code>heygen_intro.mp4</code> + <code>heygen_outro.mp4</code></div>
+            </div>
+            <div class="pitch">
+              <div class="pitch-tag">🛠️ BÔNUS PAGO</div>
+              <h4>HEYGEN NO RATEIO</h4>
+              <p>Plano HeyGen completo (download sem watermark + avatares premium + voice PT-BR) sai R$ 90+/mês solo. No rateio é fração.</p>
+              <a class="cta-btn" href="https://rateaki.geekacademy.site">Acessar Rateio</a>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 12 of 16</span>
+            <button class="complete-btn" onclick="completeStep(12)">Marcar Completo</button>
           </div>
         </div>
 
         <!-- STEP 13 -->
-        <div class="step" id="p13">
+        <div class="step locked" data-step="13" data-xp="100" id="p13">
           <div class="step-head">
-            <span class="step-id">[13]</span>
-            <h3>Gerar clips no SuperGrok</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="23 7 16 12 23 17 23 7"/>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">13</span>
+            <h3>Gerar Clips SuperGrok</h3>
+            <span class="step-xp">100</span>
           </div>
           <p class="step-desc">Só se template usa clips de cena (02, 03).</p>
-          <ol>
-            <li>Abre <a href="https://grok.com/" style="color:var(--green-bright)">grok.com</a></li>
-            <li>Imagine → cola prompt → gera imagem</li>
-            <li><strong>Animate</strong> → vídeo 6s</li>
-            <li>Aspect <strong>9:16</strong> explícito</li>
-            <li>Download → salva como <code>clip_01.mp4</code>, <code>clip_02.mp4</code>, ...</li>
-          </ol>
-          <div class="callout warn">
-            <span class="callout-icon">[!]</span>
-            <div><strong>CRÍTICO:</strong> se aspect ratio não estiver 9:16, vídeo sai 1:1 e o pipeline adiciona faixas pretas.</div>
+          <div class="step-content">
+            <ol>
+              <li>Abre <a href="https://grok.com/">grok.com</a></li>
+              <li>Imagine → cola prompt → gera imagem</li>
+              <li><strong>Animate</strong> → vídeo 6s</li>
+              <li>Aspect <strong>9:16</strong> explícito</li>
+              <li>Download → <code>clip_01.mp4</code>, <code>clip_02.mp4</code>, ...</li>
+            </ol>
+            <div class="callout warn">
+              <div class="callout-icon">!</div>
+              <div><strong>CRÍTICO:</strong> se aspect ratio não estiver 9:16, vídeo sai 1:1 e pipeline adiciona faixas pretas.</div>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 13 of 16 · 🏁 FASE 03 COMPLETA</span>
+            <button class="complete-btn" onclick="completeStep(13)">Marcar Completo</button>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- FASE 4 — FINALIZAR -->
+    <!-- ========== FASE 04 — FINALIZAR ========== -->
     <div class="mission">
       <div class="mission-header">
         <div class="mission-marker">
@@ -1022,96 +1271,132 @@ Referência: 01_talking_head/assets/reference.mp4</code></pre>
         </div>
         <div class="mission-eyebrow">FASE 04 / 04</div>
         <h2>FINALIZAR</h2>
-        <p class="mission-desc">Build base → polish HyperFrames → upload TikTok. Hora de subir o foguete.</p>
+        <p class="mission-desc">Build base → polish HyperFrames → upload. Hora de subir o foguete.</p>
       </div>
 
-      <div class="steps-grid">
+      <div class="steps">
 
         <!-- STEP 14 -->
-        <div class="step" id="p14">
+        <div class="step locked" data-step="14" data-xp="100" id="p14">
           <div class="step-head">
-            <span class="step-id">[14]</span>
-            <h3>Rodar o build base</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5"/>
+                <line x1="12" y1="19" x2="20" y2="19"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">14</span>
+            <h3>Rodar Build Base</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">Agente executa. Você só assiste.</p>
-          <pre data-label="bash"><code>python 03_faceless_lifestyle/build.py --tts "Seu script PT-BR" --srt</code></pre>
-
-          <h4>O que rola em 30s</h4>
-          <ol>
-            <li>ElevenLabs gera a voz</li>
-            <li>Whisper transcreve word-level</li>
-            <li>Jamendo baixa música automática</li>
-            <li>ffmpeg normaliza + concatena clips</li>
-            <li>Mixa voiceover + música</li>
-            <li>Salva MP4 + .srt</li>
-          </ol>
-
-          <pre data-label="output"><code>03_faceless_lifestyle/outputs/lifestyle_v1.mp4
-03_faceless_lifestyle/outputs/lifestyle_v1.srt</code></pre>
+          <p class="step-desc">Agente executa. Você assiste.</p>
+          <div class="step-content">
+            <pre data-label="bash"><code>python 03_faceless_lifestyle/build.py --tts "Seu script PT-BR" --srt</code></pre>
+            <h4>O Que Rola em 30s</h4>
+            <ol>
+              <li>ElevenLabs gera voz</li>
+              <li>Whisper transcreve word-level</li>
+              <li>Jamendo baixa música automática</li>
+              <li>ffmpeg normaliza + concatena clips</li>
+              <li>Mixa voiceover + música (-22dB)</li>
+              <li>Salva MP4 + .srt</li>
+            </ol>
+            <pre data-label="output"><code>03_faceless_lifestyle/outputs/lifestyle_v1.mp4</code></pre>
+            <div class="pitch">
+              <div class="pitch-tag">🛠️ BÔNUS PAGO</div>
+              <h4>VOZ PT-BR NATIVA</h4>
+              <p>Voiceover default Jessica funciona, mas tem sotaque. Pra voz PT-BR nativa Larissa (vendas+skincare): ElevenLabs Starter $5/mo OU rateio.</p>
+              <a class="cta-btn" href="https://rateaki.geekacademy.site">Acessar Rateio</a>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 14 of 16</span>
+            <button class="complete-btn" onclick="completeStep(14)">Marcar Completo</button>
+          </div>
         </div>
 
         <!-- STEP 15 -->
-        <div class="step" id="p15">
+        <div class="step locked" data-step="15" data-xp="100" id="p15">
           <div class="step-head">
-            <span class="step-id">[15]</span>
-            <h3>Polish com HyperFrames</h3>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">15</span>
+            <h3>Polish HyperFrames</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">Kinetic captions, transitions shader, lower-third, end CTA, grain, vignette.</p>
-          <pre data-label="bash"><code>bin/hf init compositions/meu_ad --no-install
+          <p class="step-desc">Kinetic captions + transitions shader + lower-third + end CTA + grain + vignette.</p>
+          <div class="step-content">
+            <pre data-label="bash"><code>bin/hf init compositions/meu_ad --no-install
 cp 03_faceless_lifestyle/assets/clips/*.mp4 compositions/meu_ad/
 cp 03_faceless_lifestyle/assets/voiceover.mp3 compositions/meu_ad/
 cp 03_faceless_lifestyle/assets/music.mp3 compositions/meu_ad/
 bin/hf add caption-highlight whip-pan grain-overlay vignette shimmer-sweep tiktok-follow</code></pre>
-
-          <h4>Pede pro agente</h4>
-          <pre data-label="prompt"><code>Clona a composition compositions/lucrown_ad/index.html
+            <h4>Pede pro agente</h4>
+            <pre data-label="prompt"><code>Clona compositions/lucrown_ad/index.html
 pra compositions/meu_ad/index.html.
 Ajusta script + voiceover + produto pro meu ad.</code></pre>
-
-          <pre data-label="render"><code>bin/hf render -o 03_faceless_lifestyle/outputs/meu_ad_hf.mp4</code></pre>
-
-          <div class="callout tip">
-            <span class="callout-icon">[ok]</span>
-            <div>Renderiza em ~30s. MP4 com polish nível agência.</div>
+            <pre data-label="render"><code>bin/hf render -o 03_faceless_lifestyle/outputs/meu_ad_hf.mp4</code></pre>
+            <div class="callout tip">
+              <div class="callout-icon">✓</div>
+              <div>Renderiza em ~30s. MP4 polish nível agência.</div>
+            </div>
+          </div>
+          <div class="step-footer">
+            <span class="step-progress">step 15 of 16</span>
+            <button class="complete-btn" onclick="completeStep(15)">Marcar Completo</button>
           </div>
         </div>
 
         <!-- STEP 16 -->
-        <div class="step" id="p16">
+        <div class="step locked" data-step="16" data-xp="100" id="p16">
           <div class="step-head">
-            <span class="step-id">[16]</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              </svg>
+            </div>
+            <span class="step-id-tag">16</span>
             <h3>Subir pro TikTok / Reels</h3>
+            <span class="step-xp">100</span>
           </div>
-          <p class="step-desc">Mission complete. Bora pro mundo.</p>
-
-          <div class="links-grid">
-            <a class="link-card" href="https://www.tiktok.com/upload">
-              <span class="icon">🎵</span>
-              <div class="name">TikTok</div>
-              <div class="url">tiktok.com/upload</div>
-            </a>
-            <a class="link-card" href="https://www.instagram.com/">
-              <span class="icon">📷</span>
-              <div class="name">Instagram</div>
-              <div class="url">instagram.com</div>
-            </a>
-            <a class="link-card" href="https://studio.youtube.com/">
-              <span class="icon">📺</span>
-              <div class="name">YouTube Shorts</div>
-              <div class="url">studio.youtube.com</div>
-            </a>
-            <a class="link-card" href="https://ads.tiktok.com">
-              <span class="icon">💸</span>
-              <div class="name">TikTok Ads</div>
-              <div class="url">ads.tiktok.com</div>
-            </a>
+          <p class="step-desc">Mission complete. Hora de subir o foguete.</p>
+          <div class="step-content">
+            <div class="links-grid">
+              <a class="link-card" href="https://www.tiktok.com/upload">
+                <span class="icon">🎵</span>
+                <div class="name">TikTok</div>
+                <div class="url">tiktok.com/upload</div>
+              </a>
+              <a class="link-card" href="https://www.instagram.com/">
+                <span class="icon">📷</span>
+                <div class="name">Instagram</div>
+                <div class="url">instagram.com</div>
+              </a>
+              <a class="link-card" href="https://studio.youtube.com/">
+                <span class="icon">📺</span>
+                <div class="name">YouTube Shorts</div>
+                <div class="url">studio.youtube.com</div>
+              </a>
+              <a class="link-card" href="https://ads.tiktok.com">
+                <span class="icon">💸</span>
+                <div class="name">TikTok Ads</div>
+                <div class="url">ads.tiktok.com</div>
+              </a>
+            </div>
+            <div class="pitch">
+              <div class="pitch-tag">💎 PRÓXIMA MISSÃO</div>
+              <h4>VIRA FATURAMENTO</h4>
+              <p>Saber gerar ad é 30%. Resto é produto + copy + página + tráfego. Sistema completo lowticket que coloca venda no mesmo dia.</p>
+              <a class="cta-btn" href="https://produtor.geekacademy.site">Formação Produtor Milionário</a>
+            </div>
           </div>
-
-          <div class="pitch">
-            <div class="pitch-tag">💎 PRÓXIMA MISSÃO</div>
-            <h4>VIRA FATURAMENTO</h4>
-            <p>Saber gerar ad é 30%. Resto é produto, copy, página e tráfego que convertem. Sistema completo lowticket no ar em 1 hora.</p>
-            <a class="btn" href="https://produtor.geekacademy.site">Formação Produtor Milionário</a>
+          <div class="step-footer">
+            <span class="step-progress">step 16 of 16 · 🏆 PIPELINE COMPLETO</span>
+            <button class="complete-btn" onclick="completeStep(16)">Marcar Completo</button>
           </div>
         </div>
 
@@ -1120,74 +1405,55 @@ Ajusta script + voiceover + produto pro meu ad.</code></pre>
 
   </div>
 
-  <div class="ascii-div">END_OF_ROADMAP</div>
+  <div class="ascii-div"><span class="label">END_OF_ROADMAP</span></div>
 
   <!-- LINKS BUNDLE -->
-  <section style="padding:32px 0;">
-    <div class="mission-eyebrow" style="margin-bottom:12px;">// SYSTEM_LINKS</div>
-    <h2 style="font-family:var(--font-display); font-size:36px; color:var(--green); text-shadow:0 0 12px var(--green-glow); margin-bottom:24px;">LINKS DA MISSÃO</h2>
+  <section style="padding:32px 0 64px;">
+    <div class="mission-eyebrow" style="margin-bottom:12px;">SYSTEM_LINKS</div>
+    <h2 style="font-family:var(--font-display); font-size:32px; color:var(--green); text-shadow:0 0 12px var(--green-glow); margin-bottom:24px; letter-spacing:0.03em;">LINKS DA MISSÃO</h2>
     <div class="links-grid">
-      <a class="link-card" href="https://github.com/Geeknosnegocios/geekclaudeUGC">
-        <span class="icon">📦</span>
-        <div class="name">Repositório</div>
-        <div class="url">github.com/Geeknosnegocios/geekclaudeUGC</div>
-      </a>
-      <a class="link-card" href="https://produtor.geekacademy.site">
-        <span class="icon">🎓</span>
-        <div class="name">Formação</div>
-        <div class="url">produtor.geekacademy.site</div>
-      </a>
-      <a class="link-card" href="https://rateaki.geekacademy.site">
-        <span class="icon">🛠️</span>
-        <div class="name">Rateio Ferramentas</div>
-        <div class="url">rateaki.geekacademy.site</div>
-      </a>
-      <a class="link-card" href="https://ads.tiktok.com/business/creativecenter/topads/pc/en">
-        <span class="icon">🔍</span>
-        <div class="name">TikTok Creative Center</div>
-        <div class="url">ads.tiktok.com</div>
-      </a>
-      <a class="link-card" href="https://app.heygen.com/">
-        <span class="icon">🤖</span>
-        <div class="name">HeyGen</div>
-        <div class="url">app.heygen.com</div>
-      </a>
-      <a class="link-card" href="https://grok.com/">
-        <span class="icon">🍌</span>
-        <div class="name">SuperGrok</div>
-        <div class="url">grok.com</div>
-      </a>
-      <a class="link-card" href="https://elevenlabs.io">
-        <span class="icon">🎤</span>
-        <div class="name">ElevenLabs</div>
-        <div class="url">elevenlabs.io</div>
-      </a>
-      <a class="link-card" href="https://devportal.jamendo.com">
-        <span class="icon">🎵</span>
-        <div class="name">Jamendo API</div>
-        <div class="url">devportal.jamendo.com</div>
-      </a>
-      <a class="link-card" href="https://github.com/heygen-com/hyperframes">
-        <span class="icon">⚡</span>
-        <div class="name">HyperFrames</div>
-        <div class="url">github.com/heygen-com/hyperframes</div>
-      </a>
+      <a class="link-card" href="https://github.com/Geeknosnegocios/geekclaudeUGC"><span class="icon">📦</span><div class="name">Repositório</div><div class="url">github.com/Geeknosnegocios/geekclaudeUGC</div></a>
+      <a class="link-card" href="https://produtor.geekacademy.site"><span class="icon">🎓</span><div class="name">Formação</div><div class="url">produtor.geekacademy.site</div></a>
+      <a class="link-card" href="https://rateaki.geekacademy.site"><span class="icon">🛠️</span><div class="name">Rateio Ferramentas</div><div class="url">rateaki.geekacademy.site</div></a>
+      <a class="link-card" href="https://ads.tiktok.com/business/creativecenter/topads/pc/en"><span class="icon">🔍</span><div class="name">TikTok Creative Center</div><div class="url">ads.tiktok.com</div></a>
+      <a class="link-card" href="https://app.heygen.com/"><span class="icon">🤖</span><div class="name">HeyGen</div><div class="url">app.heygen.com</div></a>
+      <a class="link-card" href="https://grok.com/"><span class="icon">🍌</span><div class="name">SuperGrok</div><div class="url">grok.com</div></a>
+      <a class="link-card" href="https://elevenlabs.io"><span class="icon">🎤</span><div class="name">ElevenLabs</div><div class="url">elevenlabs.io</div></a>
+      <a class="link-card" href="https://devportal.jamendo.com"><span class="icon">🎵</span><div class="name">Jamendo API</div><div class="url">devportal.jamendo.com</div></a>
+      <a class="link-card" href="https://github.com/heygen-com/hyperframes"><span class="icon">⚡</span><div class="name">HyperFrames</div><div class="url">github.com/heygen-com/hyperframes</div></a>
     </div>
   </section>
 
   <footer>
-    <pre class="footer-ascii">  ____  _____ _____ _  __    ____ _      _   _   _ ____  _____
- / ___|| ____| ____| |/ /   / ___| |    / \ | | | |  _ \| ____|
-| |  _ |  _| |  _| | ' /   | |   | |   / _ \| | | | | | |  _|
-| |_| || |___| |___| . \   | |___| |__/ ___ \ |_| | |_| | |___
- \____||_____|_____|_|\_\___\____|_____\_/   \_\___/|____/|_____|
-                       |_____|                                  </pre>
-    <p>./mission_log → connected to <a href="https://github.com/Geeknosnegocios/geekclaudeUGC">geekclaudeUGC</a></p>
-    <p>// lowticket no ar em 1 hora · primeira venda no mesmo dia · com claude</p>
-    <p style="margin-top:16px; color:var(--green); font-size:11px; letter-spacing:0.3em;">WAKE_UP_NEO ●</p>
+    <div class="brand-grad">GEEK CLAUDE - UGC</div>
+    <p>./mission_log → <a href="https://github.com/Geeknosnegocios/geekclaudeUGC">geekclaudeUGC</a></p>
+    <p style="color:var(--muted); margin-top:8px;">// lowticket no ar em 1 hora · primeira venda no mesmo dia · com claude</p>
+    <p style="margin-top:20px; color:var(--green); font-size:11px; letter-spacing:0.3em;">WAKE_UP_NEO ●</p>
   </footer>
 
 </div>
+
+<!-- COMPLETION MODAL -->
+<div class="completion-overlay" id="completionOverlay">
+  <div class="completion-card">
+    <h2>🏆 PIPELINE COMPLETO</h2>
+    <p>Você passou pelas 16 missões. Setup pronto. Primeiro ad UGC vencedor no ar. <strong>Bem-vindo ao Matrix.</strong></p>
+    <div class="badge-list">
+      <span class="b">✓ Setup Master</span>
+      <span class="b">✓ API Connected</span>
+      <span class="b">✓ Ad Creator</span>
+      <span class="b">✓ Pipeline Pro</span>
+      <span class="b">1600 XP</span>
+    </div>
+    <p style="font-size:15px; color:var(--green-bright); margin-top:24px;">Agora vai fundo. Aprende como TRANSFORMAR isso em faturamento real:</p>
+    <div class="ctas">
+      <a href="https://produtor.geekacademy.site">🎓 Formação Produtor Milionário</a>
+      <a href="https://rateaki.geekacademy.site" class="secondary">🛠️ Rateio Ferramentas IA</a>
+    </div>
+  </div>
+</div>
+
+<button class="reset-progress" onclick="if(confirm('Resetar todo o progresso?')) { localStorage.removeItem('gcugc_progress'); location.reload(); }">↺ Reset Progress</button>
 
 <script>
   // === MATRIX RAIN ===
@@ -1195,7 +1461,6 @@ Ajusta script + voiceover + produto pro meu ad.</code></pre>
   const ctx = canvas.getContext('2d');
   let w, h, columns, drops;
   const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*+-/<>{}[]()'.split('');
-
   function resize() {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
@@ -1204,38 +1469,100 @@ Ajusta script + voiceover + produto pro meu ad.</code></pre>
   }
   resize();
   window.addEventListener('resize', resize);
-
   function draw() {
-    ctx.fillStyle = 'rgba(10,14,10,0.08)';
+    ctx.fillStyle = 'rgba(5,8,5,0.10)';
     ctx.fillRect(0, 0, w, h);
     ctx.font = '16px "JetBrains Mono", monospace';
-
     for (let i = 0; i < drops.length; i++) {
       const char = chars[Math.floor(Math.random() * chars.length)];
       const y = drops[i] * 16;
-
-      // bright leading char
-      if (Math.random() > 0.95) {
-        ctx.fillStyle = '#39FF14';
-        ctx.shadowColor = '#39FF14';
-        ctx.shadowBlur = 8;
+      if (Math.random() > 0.96) {
+        ctx.fillStyle = '#39FF14'; ctx.shadowColor = '#39FF14'; ctx.shadowBlur = 8;
       } else {
-        ctx.fillStyle = '#00FF41';
-        ctx.shadowColor = '#00FF41';
-        ctx.shadowBlur = 2;
+        ctx.fillStyle = '#00FF41'; ctx.shadowColor = '#00FF41'; ctx.shadowBlur = 2;
       }
-
       ctx.fillText(char, i * 16, y);
       ctx.shadowBlur = 0;
-
-      if (y > h && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
+      if (y > h && Math.random() > 0.975) drops[i] = 0;
       drops[i]++;
     }
     requestAnimationFrame(draw);
   }
   draw();
+
+  // === GAMIFICATION ===
+  const STORAGE_KEY = 'gcugc_progress';
+  const TOTAL_STEPS = 16;
+  const XP_PER_STEP = 100;
+  const TOTAL_XP = TOTAL_STEPS * XP_PER_STEP;
+
+  function loadProgress() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { completed: [] };
+    } catch { return { completed: [] }; }
+  }
+
+  function saveProgress(p) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+  }
+
+  function applyProgress() {
+    const p = loadProgress();
+    const done = p.completed.length;
+    document.getElementById('xpFill').style.width = (done / TOTAL_STEPS * 100) + '%';
+    document.getElementById('xpNum').textContent = done * XP_PER_STEP;
+    document.getElementById('stepDone').textContent = done;
+
+    // Update each step state
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const el = document.querySelector(`[data-step="${i}"]`);
+      if (!el) continue;
+      el.classList.remove('locked', 'unlocked', 'completed');
+      const btn = el.querySelector('.complete-btn');
+      if (p.completed.includes(i)) {
+        el.classList.add('completed');
+        btn.textContent = 'Completo';
+      } else if (i === 1 || p.completed.includes(i - 1)) {
+        el.classList.add('unlocked');
+        btn.textContent = 'Marcar Completo';
+      } else {
+        el.classList.add('locked');
+      }
+    }
+
+    if (done === TOTAL_STEPS && !p.celebrated) {
+      p.celebrated = true;
+      saveProgress(p);
+      setTimeout(() => {
+        document.getElementById('completionOverlay').classList.add('show');
+      }, 600);
+    }
+  }
+
+  function completeStep(n) {
+    const p = loadProgress();
+    if (p.completed.includes(n)) return;
+    p.completed.push(n);
+    p.completed.sort((a,b) => a-b);
+    saveProgress(p);
+    applyProgress();
+
+    // Auto-scroll to next step
+    const next = document.querySelector(`[data-step="${n+1}"]`);
+    if (next) {
+      setTimeout(() => {
+        next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 400);
+    }
+  }
+
+  document.getElementById('completionOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'completionOverlay') {
+      e.target.classList.remove('show');
+    }
+  });
+
+  applyProgress();
 </script>
 
 </body>
